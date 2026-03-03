@@ -1,0 +1,501 @@
+---
+title: Combobox
+description: A Tailwind CSS combobox component that combines a trigger button with a searchable, keyboard-navigable list.
+---
+
+A Tailwind CSS combobox component that combines a trigger button with a searchable, keyboard-navigable list.
+
+```html preview
+<!-- START https://startingpointui.com/examples/docs/combobox/1 -->
+<div class="combobox w-56">
+  <button
+    class="combobox-trigger w-full"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#cb-1-menu"
+    aria-expanded="false"
+  >
+    <span class="combobox-value" data-placeholder>Select a framework...</span>
+    <i class="ri-expand-up-down-line text-muted-foreground"></i>
+  </button>
+  <div class="combobox-menu w-56" id="cb-1-menu">
+    <div class="combobox-search-wrap">
+      <i class="ri-search-line"></i>
+      <input class="combobox-input" type="text" placeholder="Search framework..." />
+    </div>
+    <div class="combobox-list" role="listbox">
+      <div class="combobox-item" role="option" data-value="next" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Next.js
+      </div>
+      <div class="combobox-item" role="option" data-value="sveltekit" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        SvelteKit
+      </div>
+      <div class="combobox-item" role="option" data-value="nuxt" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Nuxt.js
+      </div>
+      <div class="combobox-item" role="option" data-value="remix" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Remix
+      </div>
+      <div class="combobox-item" role="option" data-value="astro" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Astro
+      </div>
+    </div>
+    <div class="combobox-empty">No framework found.</div>
+  </div>
+</div>
+<!-- END https://startingpointui.com/examples/docs/combobox/1 -->
+```
+
+---
+
+## Pre-selected value
+
+Add the `selected` class to a `.combobox-item` and set the trigger text to show an initial selection.
+
+```html preview
+<!-- START https://startingpointui.com/examples/docs/combobox/2 -->
+<div class="combobox w-56">
+  <button
+    class="combobox-trigger w-full"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#cb-2-menu"
+    aria-expanded="false"
+  >
+    <span class="combobox-value">SvelteKit</span>
+    <i class="ri-expand-up-down-line text-muted-foreground"></i>
+  </button>
+  <div class="combobox-menu w-56" id="cb-2-menu">
+    <div class="combobox-search-wrap">
+      <i class="ri-search-line"></i>
+      <input class="combobox-input" type="text" placeholder="Search framework..." />
+    </div>
+    <div class="combobox-list" role="listbox">
+      <div class="combobox-item" role="option" data-value="next" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Next.js
+      </div>
+      <div
+        class="combobox-item selected"
+        role="option"
+        aria-selected="true"
+        data-value="sveltekit"
+        tabindex="0"
+      >
+        <i class="combobox-check ri-check-line"></i>
+        SvelteKit
+      </div>
+      <div class="combobox-item" role="option" data-value="nuxt" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Nuxt.js
+      </div>
+      <div class="combobox-item" role="option" data-value="remix" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Remix
+      </div>
+      <div class="combobox-item" role="option" data-value="astro" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Astro
+      </div>
+    </div>
+    <div class="combobox-empty">No framework found.</div>
+  </div>
+</div>
+<!-- END https://startingpointui.com/examples/docs/combobox/2 -->
+```
+
+---
+
+## With labels
+
+Use `.combobox-label` and `.combobox-separator` to group options visually.
+
+```html preview
+<!-- START https://startingpointui.com/examples/docs/combobox/3 -->
+<div class="combobox w-56">
+  <button
+    class="combobox-trigger w-full"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#cb-3-menu"
+    aria-expanded="false"
+  >
+    <span class="combobox-value" data-placeholder>Select a language...</span>
+    <i class="ri-expand-up-down-line text-muted-foreground"></i>
+  </button>
+  <div class="combobox-menu w-56" id="cb-3-menu">
+    <div class="combobox-search-wrap">
+      <i class="ri-search-line"></i>
+      <input class="combobox-input" type="text" placeholder="Search..." />
+    </div>
+    <div class="combobox-list" role="listbox">
+      <div class="combobox-label">Frontend</div>
+      <div class="combobox-item" role="option" data-value="ts" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        TypeScript
+      </div>
+      <div class="combobox-item" role="option" data-value="js" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        JavaScript
+      </div>
+      <div class="combobox-separator"></div>
+      <div class="combobox-label">Backend</div>
+      <div class="combobox-item" role="option" data-value="go" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Go
+      </div>
+      <div class="combobox-item" role="option" data-value="rust" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Rust
+      </div>
+      <div class="combobox-item" role="option" data-value="python" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Python
+      </div>
+    </div>
+    <div class="combobox-empty">No language found.</div>
+  </div>
+</div>
+<!-- END https://startingpointui.com/examples/docs/combobox/3 -->
+```
+
+---
+
+## Disabled items
+
+Use `aria-disabled="true"` and `tabindex="-1"` on a `.combobox-item` to prevent selection.
+
+```html preview
+<!-- START https://startingpointui.com/examples/docs/combobox/4 -->
+<div class="combobox w-56">
+  <button
+    class="combobox-trigger w-full"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#cb-4-menu"
+    aria-expanded="false"
+  >
+    <span class="combobox-value" data-placeholder>Select a plan...</span>
+    <i class="ri-expand-up-down-line text-muted-foreground"></i>
+  </button>
+  <div class="combobox-menu w-56" id="cb-4-menu">
+    <div class="combobox-search-wrap">
+      <i class="ri-search-line"></i>
+      <input class="combobox-input" type="text" placeholder="Search plans..." />
+    </div>
+    <div class="combobox-list" role="listbox">
+      <div class="combobox-item" role="option" data-value="free" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Free
+      </div>
+      <div class="combobox-item" role="option" data-value="pro" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Pro
+      </div>
+      <div
+        class="combobox-item"
+        role="option"
+        data-value="enterprise"
+        aria-disabled="true"
+        tabindex="-1"
+      >
+        <i class="combobox-check ri-check-line"></i>
+        Enterprise
+      </div>
+    </div>
+    <div class="combobox-empty">No plan found.</div>
+  </div>
+</div>
+<!-- END https://startingpointui.com/examples/docs/combobox/4 -->
+```
+
+---
+
+## Sizes
+
+Use `combobox-trigger-sm`, `combobox-trigger-base`, or `combobox-trigger-lg` to control the trigger size.
+
+```html preview
+<!-- START https://startingpointui.com/examples/docs/combobox/5 -->
+<div class="combobox w-48">
+  <button
+    class="combobox-trigger combobox-trigger-sm w-full"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#cb-5a-menu"
+    aria-expanded="false"
+  >
+    <span class="combobox-value" data-placeholder>Small</span>
+    <i class="ri-expand-up-down-line text-muted-foreground"></i>
+  </button>
+  <div class="combobox-menu w-48" id="cb-5a-menu">
+    <div class="combobox-search-wrap">
+      <i class="ri-search-line"></i>
+      <input class="combobox-input" type="text" placeholder="Search..." />
+    </div>
+    <div class="combobox-list" role="listbox">
+      <div class="combobox-item" role="option" data-value="a" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Option A
+      </div>
+      <div class="combobox-item" role="option" data-value="b" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Option B
+      </div>
+    </div>
+    <div class="combobox-empty">No results.</div>
+  </div>
+</div>
+<div class="combobox w-48">
+  <button
+    class="combobox-trigger combobox-trigger-base w-full"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#cb-5b-menu"
+    aria-expanded="false"
+  >
+    <span class="combobox-value" data-placeholder>Base (default)</span>
+    <i class="ri-expand-up-down-line text-muted-foreground"></i>
+  </button>
+  <div class="combobox-menu w-48" id="cb-5b-menu">
+    <div class="combobox-search-wrap">
+      <i class="ri-search-line"></i>
+      <input class="combobox-input" type="text" placeholder="Search..." />
+    </div>
+    <div class="combobox-list" role="listbox">
+      <div class="combobox-item" role="option" data-value="a" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Option A
+      </div>
+      <div class="combobox-item" role="option" data-value="b" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Option B
+      </div>
+    </div>
+    <div class="combobox-empty">No results.</div>
+  </div>
+</div>
+<div class="combobox w-48">
+  <button
+    class="combobox-trigger combobox-trigger-lg w-full"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#cb-5c-menu"
+    aria-expanded="false"
+  >
+    <span class="combobox-value" data-placeholder>Large</span>
+    <i class="ri-expand-up-down-line text-muted-foreground"></i>
+  </button>
+  <div class="combobox-menu w-48" id="cb-5c-menu">
+    <div class="combobox-search-wrap">
+      <i class="ri-search-line"></i>
+      <input class="combobox-input" type="text" placeholder="Search..." />
+    </div>
+    <div class="combobox-list" role="listbox">
+      <div class="combobox-item" role="option" data-value="a" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Option A
+      </div>
+      <div class="combobox-item" role="option" data-value="b" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Option B
+      </div>
+    </div>
+    <div class="combobox-empty">No results.</div>
+  </div>
+</div>
+<!-- END https://startingpointui.com/examples/docs/combobox/5 -->
+```
+
+---
+
+## How it works
+
+The combobox component uses a small JavaScript module that handles opening, closing, filtering, selecting, positioning, and keyboard navigation.
+
+### Structure
+
+A combobox consists of six parts:
+
+1. **`.combobox`** — Container that wraps the trigger and menu
+2. **`.combobox-trigger`** — Button that opens and closes the menu
+3. **`.combobox-value`** — Span inside the trigger showing the selected label or placeholder
+4. **`.combobox-menu`** — The floating panel with search input and item list
+5. **`.combobox-list`** — Scrollable list of options
+6. **`.combobox-item`** — Individual selectable option
+
+```html
+<div class="combobox">
+  <button
+    class="combobox-trigger"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#my-combobox"
+    aria-expanded="false"
+  >
+    <span class="combobox-value" data-placeholder>Select an option...</span>
+    <i class="ri-expand-up-down-line"></i>
+  </button>
+  <div class="combobox-menu" id="my-combobox">
+    <div class="combobox-search-wrap">
+      <i class="ri-search-line"></i>
+      <input class="combobox-input" type="text" placeholder="Search..." />
+    </div>
+    <div class="combobox-list" role="listbox">
+      <div class="combobox-item" role="option" data-value="a" tabindex="0">
+        <i class="combobox-check ri-check-line"></i>
+        Option A
+      </div>
+    </div>
+    <div class="combobox-empty">No results found.</div>
+  </div>
+</div>
+```
+
+### Opening and closing
+
+Add `data-sp-toggle="combobox"` and `data-sp-target="#id"` to the trigger button. The JavaScript finds the menu by ID and toggles it:
+
+```html
+<button
+  data-sp-toggle="combobox"
+  data-sp-target="#my-combobox"
+  aria-expanded="false"
+>
+  Open
+</button>
+```
+
+Clicking outside the combobox or pressing `Escape` closes the menu. Clicking an item selects it and closes the menu. The search input is cleared and items are reset when the menu closes.
+
+For programmatic control, use the global `sp.combobox` module:
+
+```js
+const combobox = document.querySelector(".combobox");
+const item = combobox.querySelector(".combobox-item");
+
+sp.combobox.open(combobox);
+sp.combobox.close(combobox);
+sp.combobox.toggle(combobox);
+sp.combobox.select(combobox, item);
+sp.combobox.filter(combobox, "query");
+```
+
+### Filtering
+
+Typing in the search input automatically hides items whose text content does not match the query (case-insensitive). The `.combobox-empty` element becomes visible when no items match.
+
+To filter programmatically, call `sp.combobox.filter`:
+
+```js
+const combobox = document.querySelector(".combobox");
+sp.combobox.filter(combobox, "next");
+```
+
+### Selection
+
+When an item is selected, the module adds `.selected` and `aria-selected="true"` to the item, removes them from all other items, and updates the `.combobox-value` text with the item label.
+
+A `sp:combobox:change` custom event is dispatched on the `.combobox` element with `detail.value` (from `data-value`) and `detail.label`:
+
+```js
+document.querySelector(".combobox").addEventListener("sp:combobox:change", (e) => {
+  console.log(e.detail.value, e.detail.label);
+});
+```
+
+### Animation
+
+The combobox menu includes a default fade and zoom entrance animation. When opened, the JavaScript sets `data-state="open"` on the menu.
+
+To disable the default animation and apply your own, add `no-animation` to `.combobox-menu`:
+
+```html
+<div
+  class="combobox-menu no-animation data-[state=open]:animate-in data-[state=open]:slide-in-from-top-2"
+>
+  ...
+</div>
+```
+
+### Placement
+
+Use `data-sp-placement` on `.combobox` to control the menu position relative to the trigger (default is `bottom-start`). Use `data-sp-offset` to set the distance in pixels (default is `4`):
+
+```html
+<div class="combobox" data-sp-placement="bottom-end" data-sp-offset="8">
+  ...
+</div>
+```
+
+Supported placement values follow the [Floating UI](https://floating-ui.com/docs/computePosition#placement) convention: `top`, `top-start`, `top-end`, `bottom`, `bottom-start`, `bottom-end`, `left`, `left-start`, `left-end`, `right`, `right-start`, `right-end`.
+
+### Accessibility
+
+Add `aria-expanded="false"` to the trigger button. The JavaScript updates it automatically when the menu opens and closes. Items should have `role="option"` and `tabindex="0"` so they can receive keyboard focus:
+
+```html
+<button
+  class="combobox-trigger"
+  data-sp-toggle="combobox"
+  data-sp-target="#my-combobox"
+  aria-expanded="false"
+>
+  ...
+</button>
+...
+<div class="combobox-item" role="option" tabindex="0">...</div>
+```
+
+#### Keyboard navigation
+
+| Key               | Action                                                |
+| ----------------- | ----------------------------------------------------- |
+| `Enter` / `Space` | Opens the menu when trigger is focused                |
+| `Escape`          | Closes the menu and returns focus to the trigger      |
+| `ArrowDown`       | Move focus to the next visible item                   |
+| `ArrowUp`         | Move focus to the previous visible item               |
+| `Home`            | Move focus to the first visible item                  |
+| `End`             | Move focus to the last visible item                   |
+| `Enter`           | Selects the focused item                              |
+
+### Class reference
+
+| Class                    | Description                                                        |
+| ------------------------ | ------------------------------------------------------------------ |
+| `combobox`               | Container that wraps the trigger and menu                          |
+| `combobox-trigger`       | Button that opens and closes the menu                              |
+| `combobox-trigger-sm`    | Small trigger height (h-8)                                         |
+| `combobox-trigger-base`  | Base trigger height (h-9, default)                                 |
+| `combobox-trigger-lg`    | Large trigger height (h-10)                                        |
+| `combobox-value`         | Span inside the trigger for the selected label or placeholder text |
+| `combobox-menu`          | Floating panel containing the search input and list                |
+| `combobox-search-wrap`   | Row containing the search icon and input                           |
+| `combobox-input`         | Borderless text input for filtering options                        |
+| `combobox-list`          | Scrollable container for the list of options                       |
+| `combobox-item`          | Individual selectable option                                       |
+| `combobox-check`         | Check icon inside an item, visible when the item is selected       |
+| `combobox-label`         | Non-interactive group heading                                      |
+| `combobox-separator`     | Horizontal divider between groups                                  |
+| `combobox-empty`         | Message shown when no items match the search query                 |
+| `selected`               | Add to `.combobox-item` to mark it as the selected value           |
+| `no-animation`           | Add to `.combobox-menu` to disable the default open animation      |
+
+### Data attributes
+
+| Attribute                    | Element          | Description                                             |
+| ---------------------------- | ---------------- | ------------------------------------------------------- |
+| `data-sp-toggle="combobox"`  | Trigger button   | Toggles the combobox menu                               |
+| `data-sp-target="#id"`       | Trigger button   | ID of the `.combobox-menu` element to control           |
+| `data-sp-placement`          | `.combobox`      | Menu placement relative to trigger (default: `bottom-start`) |
+| `data-sp-offset`             | `.combobox`      | Distance from trigger in pixels (default: `4`)          |
+| `data-value`                 | `.combobox-item` | Value emitted in the `sp:combobox:change` event         |
+| `data-placeholder`           | `.combobox-value`| Marks the value span as showing placeholder text        |
+| `data-state`                 | `.combobox-menu` | Set to `open` or `closed` during animation              |
+| `aria-disabled="true"`       | `.combobox-item` | Disables the item visually and functionally             |
+| `aria-selected="true"`       | `.combobox-item` | Marks the item as the currently selected option         |
