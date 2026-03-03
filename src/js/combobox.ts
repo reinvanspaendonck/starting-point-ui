@@ -120,20 +120,21 @@ import {
     item.classList.add("selected");
     item.setAttribute("aria-selected", "true");
   
+    const siblingText =
+      item.querySelector(".combobox-check + *")?.textContent?.trim();
+    const label =
+      item.dataset.label ??
+      (siblingText || undefined) ??
+      item.textContent?.trim() ??
+      "";
+  
     const valueEl = combobox.querySelector<HTMLElement>(".combobox-value");
     if (valueEl) {
-      const siblingText = item.querySelector(".combobox-check + *")?.textContent?.trim();
-      const label =
-        item.dataset.label ??
-        (siblingText || undefined) ??
-        item.textContent?.trim() ??
-        "";
       valueEl.textContent = label;
       valueEl.removeAttribute("data-placeholder");
     }
   
     const value = item.dataset.value ?? "";
-    const label = item.textContent?.trim() ?? "";
   
     combobox.dispatchEvent(
       new CustomEvent("sp:combobox:change", {
