@@ -62,7 +62,7 @@ import {
     });
   }
   
-  export function open(combobox: HTMLElement) {
+  export async function open(combobox: HTMLElement) {
     const menu = getMenu(combobox);
     if (!menu || menu.classList.contains("open")) return;
   
@@ -73,11 +73,11 @@ import {
   
     const trigger = getTrigger(combobox);
   
+    await positionMenu(combobox);
+  
     menu.classList.add("open");
     trigger?.setAttribute("aria-expanded", "true");
     menu.setAttribute("data-state", "open");
-  
-    positionMenu(combobox);
   
     const input = getInput(combobox);
     input?.focus();
