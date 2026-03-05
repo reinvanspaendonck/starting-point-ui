@@ -26,7 +26,11 @@ import {
   function getInput(combobox: HTMLElement): HTMLInputElement | null {
     return combobox.querySelector(".combobox-input");
   }
-  
+
+  function getValueInput(combobox: HTMLElement): HTMLInputElement | null {
+    return combobox.querySelector("input[data-sp-value]");
+  }
+
   function getOpenCombobox(): HTMLElement | null {
     const openMenu = document.querySelector(".combobox-menu.open");
     return openMenu?.closest(".combobox") ?? null;
@@ -135,14 +139,17 @@ import {
     }
   
     const value = item.dataset.value ?? "";
-  
+
+    const valueInput = getValueInput(combobox);
+    if (valueInput) valueInput.value = value;
+
     combobox.dispatchEvent(
       new CustomEvent("sp:combobox:change", {
         bubbles: true,
         detail: { value, label },
       }),
     );
-  
+
     close(combobox);
   }
   
@@ -300,12 +307,26 @@ import {
     filter(combobox, input.value);
   }
   
+  function syncInitialValueInputs() {
+    document.querySelectorAll<HTMLElement>(".combobox").forEach((combobox) => {
+      const valueInput = getValueInput(combobox);
+      const selectedItem = combobox.querySelector<HTMLElement>(
+        ".combobox-item.selected",
+      );
+      if (valueInput && selectedItem) {
+        valueInput.value = selectedItem.dataset.value ?? "";
+      }
+    });
+  }
+
   let initialized = false;
-  
+
   (function init() {
     if (typeof document === "undefined" || initialized) return;
     initialized = true;
-  
+
+    syncInitialValueInputs();
+
     document.addEventListener("click", handleClick);
     document.addEventListener("keydown", handleKeydown);
     document.addEventListener("focusout", handleFocusOut);
