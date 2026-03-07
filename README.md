@@ -10,10 +10,6 @@ Visit [startingpointui.com](https://www.startingpointui.com) for full documentat
 
 Visit [startingpointui.com/docs/guides/installation](https://www.startingpointui.com/docs/guides/installation) to get started.
 
-## Changelog
-
-Visit [startingpointui.com/docs/resources/changelog](https://www.startingpointui.com/docs/resources/changelog) to see what's new.
-
 ## Development
 
 ```sh
