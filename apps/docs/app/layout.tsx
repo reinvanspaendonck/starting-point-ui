@@ -8,6 +8,10 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.startingpointui.com"),
+  alternates: {
+    canonical: "/",
+  },
   title: "Starting Point UI",
   description: "An open-source component library built for Tailwind CSS.",
 };
