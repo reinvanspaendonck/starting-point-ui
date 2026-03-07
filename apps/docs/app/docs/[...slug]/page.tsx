@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getDocBySlug, getAllDocSlugs } from "@/lib/mdx";
 import { CustomMDX } from "@/components/mdx";
+import { CopyContextButton } from "@/components/copy-context-button";
 import type { Metadata } from "next";
 
 type Props = {
@@ -35,12 +36,15 @@ export default async function DocPage({ params }: Props) {
 
   return (
     <>
-      <h1
-        id="introduction"
-        className="text-3xl font-bold tracking-tight scroll-mt-20 mb-4 sm:mb-6"
-      >
-        {doc.metadata.title}
-      </h1>
+      <div className="flex items-end justify-between gap-4 mb-4 sm:mb-6">
+        <h1
+          id="introduction"
+          className="text-3xl font-bold tracking-tight scroll-mt-20"
+        >
+          {doc.metadata.title}
+        </h1>
+        <CopyContextButton content={doc.content} />
+      </div>
       <CustomMDX source={doc.content} />
     </>
   );
