@@ -8,7 +8,7 @@ import { SearchDialog } from "@/components/search-dialog";
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-40">
+    <header className="sticky top-0 z-40 bg-background">
       <div className="px-4 sm:px-6 h-(--navbar-height)">
         <nav className="h-full flex items-center justify-between">
           <div className="flex items-center gap-1 -ml-2 lg:ml-0">
