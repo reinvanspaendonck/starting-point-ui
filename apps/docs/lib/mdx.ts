@@ -54,12 +54,20 @@ export function getDocBySlug(slug: string[]): DocFile | null {
   };
 }
 
-export function getAllDocSlugs(): string[][] {
+export function getAllDocs(): DocFile[] {
   const docsDir = getDocsDirectory();
   if (!fs.existsSync(docsDir)) return [];
 
   return getMDXFiles(docsDir).map((filePath) => {
+    const rawContent = fs.readFileSync(filePath, "utf-8");
+    const { data, content } = matter(rawContent);
     const relativePath = path.relative(docsDir, filePath);
-    return relativePath.replace(/\.mdx$/, "").split(path.sep);
+    const slug = relativePath.replace(/\.mdx$/, "").split(path.sep);
+
+    return { metadata: data as DocMetadata, content, slug };
   });
+}
+
+export function getAllDocSlugs(): string[][] {
+  return getAllDocs().map((doc) => doc.slug);
 }

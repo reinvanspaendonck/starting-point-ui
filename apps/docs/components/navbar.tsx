@@ -4,6 +4,7 @@ import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Sidebar } from "@/components/sidebar";
 import { MobileNavCloser } from "@/components/mobile-nav-closer";
+import { SearchDialog } from "@/components/search-dialog";
 
 export function Navbar() {
   return (
@@ -23,6 +24,7 @@ export function Navbar() {
             <Logo />
           </div>
           <div className="flex items-center gap-1 -mr-2">
+            <SearchDialog />
             <Link
               href="/docs/guides/introduction"
               className="btn btn-ghost btn-sm max-lg:hidden"
