@@ -76,19 +76,24 @@ async function positionContent(tooltip: HTMLElement) {
   }
 }
 
-function open(tooltip: HTMLElement) {
+async function open(tooltip: HTMLElement) {
   const content = getContent(tooltip);
   if (!content || content.classList.contains("open")) return;
 
   const openTooltip = getOpenTooltip();
   if (openTooltip) {
-    close(openTooltip);
+    await close(openTooltip);
   }
 
+  // Make the element measurable but invisible so position can be computed
+  // before the tooltip becomes visible and the animation starts.
+  content.style.visibility = "hidden";
   content.classList.add("open");
-  content.setAttribute("data-state", "open");
 
-  positionContent(tooltip);
+  await positionContent(tooltip);
+
+  content.style.visibility = "";
+  content.setAttribute("data-state", "open");
 }
 
 async function close(tooltip: HTMLElement) {
