@@ -10,6 +10,8 @@ import {
 } from "@floating-ui/dom";
 import { waitForAnimations } from "./utils";
 
+let tooltipIdCounter = 0;
+
 const STATIC_SIDE: Record<string, string> = {
   top: "bottom",
   right: "left",
@@ -33,6 +35,13 @@ function getOrCreateArrow(content: HTMLElement): HTMLElement {
 
 function getTrigger(tooltip: HTMLElement): HTMLElement | null {
   return tooltip.querySelector("[data-sp-toggle='tooltip']");
+}
+
+function ensureContentId(content: HTMLElement): string {
+  if (!content.id) {
+    content.id = `sp-tooltip-${++tooltipIdCounter}`;
+  }
+  return content.id;
 }
 
 function getOpenTooltip(): HTMLElement | null {
@@ -94,6 +103,11 @@ async function open(tooltip: HTMLElement) {
 
   content.style.visibility = "";
   content.setAttribute("data-state", "open");
+
+  const trigger = getTrigger(tooltip);
+  if (trigger) {
+    trigger.setAttribute("aria-describedby", ensureContentId(content));
+  }
 }
 
 async function close(tooltip: HTMLElement) {
@@ -106,6 +120,11 @@ async function close(tooltip: HTMLElement) {
 
   content.classList.remove("open");
   content.removeAttribute("data-state");
+
+  const trigger = getTrigger(tooltip);
+  if (trigger) {
+    trigger.removeAttribute("aria-describedby");
+  }
 }
 
 function handleMouseOver(e: MouseEvent) {
