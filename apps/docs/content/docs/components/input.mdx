@@ -6,11 +6,9 @@ description: A Tailwind CSS input component for text, email, password, and other
 A Tailwind CSS input component for single-line text entry.
 
 ```html preview
-<!-- START https://startingpointui.com/examples/docs/input/1 -->
 <div class="w-full max-w-xs">
   <input class="input" type="text" placeholder="Full name" />
 </div>
-<!-- END https://startingpointui.com/examples/docs/input/1 -->
 ```
 
 ---
@@ -20,7 +18,6 @@ A Tailwind CSS input component for single-line text entry.
 Pair with a [Label](/docs/components/label) for accessible form fields. Connect them using matching `for` and `id` attributes so clicking the label focuses the input and screen readers announce it correctly.
 
 ```html preview
-<!-- START https://startingpointui.com/examples/docs/input/2 -->
 <div class="w-full max-w-xs">
   <div class="grid gap-3">
     <label class="label" for="full-name">Full name</label>
@@ -33,7 +30,6 @@ Pair with a [Label](/docs/components/label) for accessible form fields. Connect 
     />
   </div>
 </div>
-<!-- END https://startingpointui.com/examples/docs/input/2 -->
 ```
 
 ---
@@ -43,7 +39,6 @@ Pair with a [Label](/docs/components/label) for accessible form fields. Connect 
 The `.input` class works with all native input types. Set the `type` attribute to change the behavior.
 
 ```html preview
-<!-- START https://startingpointui.com/examples/docs/input/3 -->
 <div class="grid gap-6 w-full max-w-xs">
   <div class="grid gap-3">
     <label class="label" for="email">Email</label>
@@ -74,7 +69,6 @@ The `.input` class works with all native input types. Set the `type` attribute t
     <input class="input" id="cover-image" type="file" name="cover-image" />
   </div>
 </div>
-<!-- END https://startingpointui.com/examples/docs/input/3 -->
 ```
 
 ---
@@ -84,13 +78,11 @@ The `.input` class works with all native input types. Set the `type` attribute t
 Use size modifiers to change the input height.
 
 ```html preview
-<!-- START https://startingpointui.com/examples/docs/input/4 -->
 <div class="grid gap-6 w-full max-w-xs">
   <input class="input input-sm" placeholder="Small" />
   <input class="input" placeholder="Default" />
   <input class="input input-lg" placeholder="Large" />
 </div>
-<!-- END https://startingpointui.com/examples/docs/input/4 -->
 ```
 
 ---
@@ -100,7 +92,6 @@ Use size modifiers to change the input height.
 Add `disabled` to prevent interaction. The input appears faded automatically.
 
 ```html preview
-<!-- START https://startingpointui.com/examples/docs/input/5 -->
 <div class="w-full max-w-xs">
   <div class="grid gap-3">
     <label class="label" for="email">Email</label>
@@ -114,7 +105,6 @@ Add `disabled` to prevent interaction. The input appears faded automatically.
     />
   </div>
 </div>
-<!-- END https://startingpointui.com/examples/docs/input/5 -->
 ```
 
 ---
@@ -124,7 +114,6 @@ Add `disabled` to prevent interaction. The input appears faded automatically.
 Add `aria-invalid="true"` to show the input in an error state. Connect an error message using `aria-describedby` on the input, pointing to the `id` of the error element. This lets screen readers announce the error when the input is focused.
 
 ```html preview
-<!-- START https://startingpointui.com/examples/docs/input/6 -->
 <div class="w-full max-w-xs">
   <div class="grid gap-3">
     <label class="label" for="phone-number">Phone number</label>
@@ -142,7 +131,6 @@ Add `aria-invalid="true"` to show the input in an error state. Connect an error 
     </p>
   </div>
 </div>
-<!-- END https://startingpointui.com/examples/docs/input/6 -->
 ```
 
 ---
