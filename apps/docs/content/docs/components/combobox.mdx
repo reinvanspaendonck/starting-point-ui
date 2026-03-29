@@ -86,84 +86,86 @@ A Tailwind CSS combobox component that combines a trigger button with a searchab
 
 ## With label
 
-Pair with a [Label](/docs/components/label) for accessible form fields. Use `aria-labelledby` on the trigger pointing to the label's `id` so screen readers announce it correctly.
+Pair with a [Label](/docs/components/label) and wrap in a [Field](/docs/components/field) for accessible form fields. Use `aria-labelledby` on the trigger pointing to the label's `id` so screen readers announce it correctly.
 
 ```html preview
-<div class="space-y-2">
-  <label class="label" id="framework-label">Framework</label>
-  <div class="combobox w-56">
-    <button
-      class="combobox-trigger w-full"
-      type="button"
-      data-sp-toggle="combobox"
-      aria-expanded="false"
-      aria-labelledby="framework-label"
-    >
-      <span class="combobox-value">Select a framework...</span>
-      <i class="ri-expand-up-down-line text-muted-foreground"></i>
-    </button>
-    <div class="combobox-menu w-56" role="listbox">
-      <div class="combobox-search">
-        <i class="ri-search-line"></i>
-        <input
-          class="combobox-input"
-          type="text"
-          placeholder="Search framework..."
-        />
+<div class="w-fit">
+  <div class="field">
+    <label class="label" id="framework-label">Framework</label>
+    <div class="combobox w-56">
+      <button
+        class="combobox-trigger w-full"
+        type="button"
+        data-sp-toggle="combobox"
+        aria-expanded="false"
+        aria-labelledby="framework-label"
+      >
+        <span class="combobox-value">Select a framework...</span>
+        <i class="ri-expand-up-down-line text-muted-foreground"></i>
+      </button>
+      <div class="combobox-menu w-56" role="listbox">
+        <div class="combobox-search">
+          <i class="ri-search-line"></i>
+          <input
+            class="combobox-input"
+            type="text"
+            placeholder="Search framework..."
+          />
+        </div>
+        <div class="combobox-list">
+          <div class="combobox-item" role="option" tabindex="0">
+            <input
+              type="radio"
+              class="sr-only"
+              tabindex="-1"
+              name="framework"
+              value="next"
+            />
+            Next.js
+          </div>
+          <div class="combobox-item" role="option" tabindex="0">
+            <input
+              type="radio"
+              class="sr-only"
+              tabindex="-1"
+              name="framework"
+              value="sveltekit"
+            />
+            SvelteKit
+          </div>
+          <div class="combobox-item" role="option" tabindex="0">
+            <input
+              type="radio"
+              class="sr-only"
+              tabindex="-1"
+              name="framework"
+              value="nuxt"
+            />
+            Nuxt.js
+          </div>
+          <div class="combobox-item" role="option" tabindex="0">
+            <input
+              type="radio"
+              class="sr-only"
+              tabindex="-1"
+              name="framework"
+              value="remix"
+            />
+            Remix
+          </div>
+          <div class="combobox-item" role="option" tabindex="0">
+            <input
+              type="radio"
+              class="sr-only"
+              tabindex="-1"
+              name="framework"
+              value="astro"
+            />
+            Astro
+          </div>
+        </div>
+        <div class="combobox-empty">No framework found.</div>
       </div>
-      <div class="combobox-list">
-        <div class="combobox-item" role="option" tabindex="0">
-          <input
-            type="radio"
-            class="sr-only"
-            tabindex="-1"
-            name="framework"
-            value="next"
-          />
-          Next.js
-        </div>
-        <div class="combobox-item" role="option" tabindex="0">
-          <input
-            type="radio"
-            class="sr-only"
-            tabindex="-1"
-            name="framework"
-            value="sveltekit"
-          />
-          SvelteKit
-        </div>
-        <div class="combobox-item" role="option" tabindex="0">
-          <input
-            type="radio"
-            class="sr-only"
-            tabindex="-1"
-            name="framework"
-            value="nuxt"
-          />
-          Nuxt.js
-        </div>
-        <div class="combobox-item" role="option" tabindex="0">
-          <input
-            type="radio"
-            class="sr-only"
-            tabindex="-1"
-            name="framework"
-            value="remix"
-          />
-          Remix
-        </div>
-        <div class="combobox-item" role="option" tabindex="0">
-          <input
-            type="radio"
-            class="sr-only"
-            tabindex="-1"
-            name="framework"
-            value="astro"
-          />
-          Astro
-        </div>
-      </div>
-      <div class="combobox-empty">No framework found.</div>
     </div>
   </div>
 </div>
