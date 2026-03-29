@@ -41,7 +41,7 @@ export default function Example() {
                 <p className="text-muted-foreground">sarah@example.com</p>
               </div>
             </div>
-            <select className="select select-sm w-22">
+            <select className="select h-8 w-22">
               <option value="write">Write</option>
               <option value="read">Read</option>
             </select>
@@ -58,7 +58,7 @@ export default function Example() {
                 <p className="text-muted-foreground">michael@example.com</p>
               </div>
             </div>
-            <select className="select select-sm w-22">
+            <select className="select h-8 w-22">
               <option value="read">Read</option>
               <option value="write">Write</option>
             </select>
@@ -75,7 +75,7 @@ export default function Example() {
                 <p className="text-muted-foreground">emma@example.com</p>
               </div>
             </div>
-            <select className="select select-sm w-22">
+            <select className="select h-8 w-22">
               <option value="read">Read</option>
               <option value="write">Write</option>
             </select>

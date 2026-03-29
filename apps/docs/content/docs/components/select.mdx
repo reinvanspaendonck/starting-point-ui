@@ -40,26 +40,6 @@ Pair with a [Label](/docs/components/label) for accessible form fields. Connect 
 
 ---
 
-## Sizes
-
-Use size modifiers to change the select height.
-
-```html preview
-<div class="grid gap-6 w-full max-w-xs">
-  <select class="select select-sm">
-    <option>Small</option>
-  </select>
-  <select class="select">
-    <option>Default</option>
-  </select>
-  <select class="select select-lg">
-    <option>Large</option>
-  </select>
-</div>
-```
-
----
-
 ## Disabled
 
 Add `disabled` to prevent interaction. The select appears faded automatically.
@@ -126,7 +106,7 @@ Combine selects with [avatars](/docs/components/avatar) to assign roles or permi
             <p class="text-muted-foreground">sarah@example.com</p>
           </div>
         </div>
-        <select class="select select-sm w-22" name="sarah-johnson">
+        <select class="select h-8 w-22" name="sarah-johnson">
           <option value="write" selected="">Write</option>
           <option value="read">Read</option>
         </select>
@@ -143,7 +123,7 @@ Combine selects with [avatars](/docs/components/avatar) to assign roles or permi
             <p class="text-muted-foreground">michael@example.com</p>
           </div>
         </div>
-        <select class="select select-sm w-22" name="michael-chen">
+        <select class="select h-8 w-22" name="michael-chen">
           <option value="write">Write</option>
           <option value="read" selected="">Read</option>
         </select>
@@ -160,7 +140,7 @@ Combine selects with [avatars](/docs/components/avatar) to assign roles or permi
             <p class="text-muted-foreground">emma@example.com</p>
           </div>
         </div>
-        <select class="select select-sm w-22" name="emma-wilson">
+        <select class="select h-8 w-22" name="emma-wilson">
           <option value="write">Write</option>
           <option value="read" selected="">Read</option>
         </select>
@@ -210,9 +190,6 @@ Add `aria-invalid="true"` to show the select in an error state:
 
 ### Class reference
 
-| Class         | Description         |
-| ------------- | ------------------- |
-| `select`      | Base select styles  |
-| `select-sm`   | Small size variant  |
-| `select-base` | Base size (default) |
-| `select-lg`   | Large size variant  |
+| Class    | Description        |
+| -------- | ------------------ |
+| `select` | Base select styles |
