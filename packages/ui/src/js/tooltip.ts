@@ -92,7 +92,7 @@ async function open(tooltip: HTMLElement) {
 
   const openTooltip = getOpenTooltip();
   if (openTooltip) {
-    await close(openTooltip);
+    close(openTooltip);
   }
 
   // Make the element measurable but invisible so position can be computed
