@@ -11,6 +11,7 @@ import {
 import { waitForAnimations } from "./utils";
 
 let tooltipIdCounter = 0;
+const targetStates = new WeakMap<HTMLElement, "open" | "close">();
 
 const STATIC_SIDE: Record<string, string> = {
   top: "bottom",
@@ -96,10 +97,13 @@ async function open(tooltip: HTMLElement) {
 
   // Make the element measurable but invisible so position can be computed
   // before the tooltip becomes visible and the animation starts.
+  targetStates.set(content, "open");
   content.style.visibility = "hidden";
   content.classList.add("open");
 
   await positionContent(tooltip);
+
+  if (targetStates.get(content) !== "open") return;
 
   content.style.visibility = "";
   content.setAttribute("data-state", "open");
@@ -114,9 +118,12 @@ async function close(tooltip: HTMLElement) {
   const content = getContent(tooltip);
   if (!content || !content.classList.contains("open")) return;
 
+  targetStates.set(content, "close");
   content.setAttribute("data-state", "closed");
 
   await waitForAnimations([content]);
+
+  if (targetStates.get(content) !== "close") return;
 
   content.classList.remove("open");
   content.removeAttribute("data-state");
