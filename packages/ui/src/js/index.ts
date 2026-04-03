@@ -5,6 +5,7 @@ import * as collapsible from "./collapsible";
 import * as combobox from "./combobox";
 import * as dialog from "./dialog";
 import * as dropdown from "./dropdown";
+import "./popover";
 import * as resizable from "./resizable";
 import * as sidebar from "./sidebar";
 import * as tabs from "./tabs";

@@ -1,0 +1,36 @@
+/* Starting Point UI Popover Styles */
+
+@utility popover {
+  @layer l1.l2 {
+    @apply relative inline-block;
+  }
+}
+
+@utility popover-content {
+  @layer l1.l2 {
+    @apply absolute z-998 hidden w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md;
+    @apply [&:not(.no-animation)]:data-[state=open]:animate-in [&:not(.no-animation)]:data-[state=open]:fade-in-0 [&:not(.no-animation)]:data-[state=open]:zoom-in-95;
+
+    &.open {
+      @apply block;
+    }
+  }
+}
+
+@utility popover-header {
+  @layer l1.l2 {
+    @apply mb-3 space-y-1;
+  }
+}
+
+@utility popover-title {
+  @layer l1.l2 {
+    @apply text-sm font-medium leading-none;
+  }
+}
+
+@utility popover-description {
+  @layer l1.l2 {
+    @apply text-sm text-muted-foreground;
+  }
+}
