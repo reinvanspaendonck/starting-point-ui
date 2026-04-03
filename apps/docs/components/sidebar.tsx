@@ -42,6 +42,7 @@ const navigation = [
       { title: "Table", href: "/docs/components/table" },
       { title: "Tabs", href: "/docs/components/tabs" },
       { title: "Textarea", href: "/docs/components/textarea" },
+      { title: "Tooltip", href: "/docs/components/tooltip" },
     ],
   },
 ];
