@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Github } from "lucide-react";
+import { WandSparkles } from "lucide-react";
 import { ScrollIndicator } from "@/components/scroll-indicator";
 
 import Card1 from "@/examples/components/card/1";
@@ -23,8 +23,18 @@ export const metadata: Metadata = {
 };
 
 const cards = [
-  Card7, Card5, Card8, Card9, Card3, Card1, Card6, Card4, Card12, Card11,
-  Card10, Card2,
+  Card7,
+  Card5,
+  Card8,
+  Card9,
+  Card3,
+  Card1,
+  Card6,
+  Card4,
+  Card12,
+  Card11,
+  Card10,
+  Card2,
 ];
 
 export default function Home() {
@@ -49,15 +59,15 @@ export default function Home() {
             <Link href="/docs/guides/installation" className="btn lg:btn-lg">
               Get Started
             </Link>
-            <a
-              href="https://github.com/gufodotdev/starting-point-ui"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
               className="btn btn-outline lg:btn-lg"
+              data-sp-toggle="dialog"
+              data-sp-target="#theme-editor"
             >
-              <Github className="size-4" />
-              View Source
-            </a>
+              <WandSparkles className="size-4" />
+              Make it yours
+            </button>
           </div>
           <div className="lg:hidden mt-6">
             <ScrollIndicator />

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Github, Menu, PanelLeftClose } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeEditor } from "@/components/theme-editor";
 import { Sidebar } from "@/components/sidebar";
 import { MobileNavCloser } from "@/components/mobile-nav-closer";
 import { SearchDialog } from "@/components/search-dialog";
@@ -38,6 +39,7 @@ export function Navbar() {
             >
               Examples
             </Link>
+            <ThemeEditor />
             <a
               href="https://github.com/gufodotdev/starting-point-ui"
               target="_blank"

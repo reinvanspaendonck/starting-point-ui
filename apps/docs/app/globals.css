@@ -3,6 +3,10 @@
 
 @source "../content/docs";
 
+@theme inline {
+  --font-sans: "Inter", sans-serif;
+}
+
 :root {
   --navbar-height: 4rem;
   --sidebar-width: 14rem;
