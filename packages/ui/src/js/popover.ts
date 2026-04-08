@@ -77,8 +77,6 @@ export async function close(popover: HTMLElement) {
 
   content.classList.remove("open");
   content.removeAttribute("data-state");
-
-  trigger?.focus();
 }
 
 export function toggle(popover: HTMLElement) {
@@ -116,7 +114,9 @@ function handleKeydown(e: KeyboardEvent) {
   const openPopover = getOpenPopover();
   if (e.key === "Escape" && openPopover) {
     e.preventDefault();
+    const trigger = getTrigger(openPopover);
     close(openPopover);
+    trigger?.focus();
     return;
   }
 
