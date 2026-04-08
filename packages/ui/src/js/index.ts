@@ -8,7 +8,7 @@ import * as dropdown from "./dropdown";
 import * as resizable from "./resizable";
 import * as sidebar from "./sidebar";
 import * as tabs from "./tabs";
-import "./tooltip";
+import * as tooltip from "./tooltip";
 
 export {
   accordion,
@@ -19,6 +19,7 @@ export {
   resizable,
   sidebar,
   tabs,
+  tooltip,
 };
 
 declare global {
@@ -32,6 +33,7 @@ declare global {
       resizable: typeof resizable;
       sidebar: typeof sidebar;
       tabs: typeof tabs;
+      tooltip: typeof tooltip;
     };
   }
 }
@@ -46,5 +48,6 @@ if (typeof window !== "undefined") {
     resizable,
     sidebar,
     tabs,
+    tooltip,
   };
 }

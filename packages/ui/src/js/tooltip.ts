@@ -86,7 +86,7 @@ async function positionContent(tooltip: HTMLElement) {
   }
 }
 
-async function open(tooltip: HTMLElement) {
+export async function open(tooltip: HTMLElement) {
   const content = getContent(tooltip);
   if (!content || content.classList.contains("open")) return;
 
@@ -114,7 +114,7 @@ async function open(tooltip: HTMLElement) {
   }
 }
 
-async function close(tooltip: HTMLElement) {
+export async function close(tooltip: HTMLElement) {
   const content = getContent(tooltip);
   if (!content || !content.classList.contains("open")) return;
 
@@ -131,6 +131,15 @@ async function close(tooltip: HTMLElement) {
   const trigger = getTrigger(tooltip);
   if (trigger) {
     trigger.removeAttribute("aria-describedby");
+  }
+}
+
+export function toggle(tooltip: HTMLElement) {
+  const content = getContent(tooltip);
+  if (content?.classList.contains("open")) {
+    close(tooltip);
+  } else {
+    open(tooltip);
   }
 }
 
