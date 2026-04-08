@@ -103,6 +103,16 @@ The arrow element (`.tooltip-arrow`) is automatically created by the JavaScript 
 The tooltip opens automatically when the user hovers over or focuses the trigger element. It closes when 
 the mouse leaves or the trigger loses focus. Pressing Escape also closes the tooltip.
 
+For programmatic control, use the global `sp.tooltip` module:
+
+```js
+const tooltip = document.querySelector(".tooltip");
+
+sp.tooltip.open(tooltip);
+sp.tooltip.close(tooltip);
+sp.tooltip.toggle(tooltip);
+```
+
 ### Animation
 
 The tooltip includes a default fade and zoom animation. When shown, the JavaScript sets `data-state="open"` on the content element.
