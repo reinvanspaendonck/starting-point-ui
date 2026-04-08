@@ -41,7 +41,7 @@ async function positionContent(popover: HTMLElement) {
   });
 }
 
-export function open(popover: HTMLElement) {
+export async function open(popover: HTMLElement) {
   const content = getContent(popover);
   if (!content || content.classList.contains("open")) return;
 
@@ -56,7 +56,7 @@ export function open(popover: HTMLElement) {
   trigger?.setAttribute("aria-expanded", "true");
   content.setAttribute("data-state", "open");
 
-  positionContent(popover);
+  await positionContent(popover);
 
   const focusable = getFocusableElements(content);
   if (focusable.length > 0) {
