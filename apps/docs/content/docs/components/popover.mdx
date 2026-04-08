@@ -17,9 +17,9 @@ A Tailwind CSS popover component for displaying rich content in a floating panel
     Open Popover
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Dimensions</h4>
-      <p class="popover-description">Set the dimensions for the layer.</p>
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">Dimensions</h4>
+      <p class="text-sm text-muted-foreground">Set the dimensions for the layer.</p>
     </div>
     <div class="flex flex-col gap-3">
       <div class="flex items-center gap-4">
@@ -48,7 +48,7 @@ A Tailwind CSS popover component for displaying rich content in a floating panel
 
 ## Basic
 
-A simple popover with a header, title, and description.
+A simple popover with a title and description.
 
 ```html preview
 <!-- START https://startingpointui.com/examples/docs/popover/2 -->
@@ -62,9 +62,9 @@ A simple popover with a header, title, and description.
     Open Popover
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">About this feature</h4>
-      <p class="popover-description">
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">About this feature</h4>
+      <p class="text-sm text-muted-foreground">
         This feature allows you to customize the layout dimensions of any layer
         in your project. Changes are applied in real time.
       </p>
@@ -92,9 +92,9 @@ Use `data-sp-placement` to control the popover position (default is `bottom`).
     bottom-start
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Bottom Start</h4>
-      <p class="popover-description">Aligned to the start of the trigger.</p>
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">Bottom Start</h4>
+      <p class="text-sm text-muted-foreground">Aligned to the start of the trigger.</p>
     </div>
   </div>
 </div>
@@ -108,9 +108,9 @@ Use `data-sp-placement` to control the popover position (default is `bottom`).
     bottom
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Bottom</h4>
-      <p class="popover-description">Centered below the trigger.</p>
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">Bottom</h4>
+      <p class="text-sm text-muted-foreground">Centered below the trigger.</p>
     </div>
   </div>
 </div>
@@ -124,9 +124,9 @@ Use `data-sp-placement` to control the popover position (default is `bottom`).
     bottom-end
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Bottom End</h4>
-      <p class="popover-description">Aligned to the end of the trigger.</p>
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">Bottom End</h4>
+      <p class="text-sm text-muted-foreground">Aligned to the end of the trigger.</p>
     </div>
   </div>
 </div>
@@ -140,9 +140,9 @@ Use `data-sp-placement` to control the popover position (default is `bottom`).
     top-start
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Top Start</h4>
-      <p class="popover-description">Aligned to the start above the trigger.</p>
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">Top Start</h4>
+      <p class="text-sm text-muted-foreground">Aligned to the start above the trigger.</p>
     </div>
   </div>
 </div>
@@ -156,9 +156,9 @@ Use `data-sp-placement` to control the popover position (default is `bottom`).
     top
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Top</h4>
-      <p class="popover-description">Centered above the trigger.</p>
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">Top</h4>
+      <p class="text-sm text-muted-foreground">Centered above the trigger.</p>
     </div>
   </div>
 </div>
@@ -172,9 +172,9 @@ Use `data-sp-placement` to control the popover position (default is `bottom`).
     top-end
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Top End</h4>
-      <p class="popover-description">Aligned to the end above the trigger.</p>
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">Top End</h4>
+      <p class="text-sm text-muted-foreground">Aligned to the end above the trigger.</p>
     </div>
   </div>
 </div>
@@ -188,9 +188,9 @@ Use `data-sp-placement` to control the popover position (default is `bottom`).
     left
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Left</h4>
-      <p class="popover-description">Centered to the left of the trigger.</p>
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">Left</h4>
+      <p class="text-sm text-muted-foreground">Centered to the left of the trigger.</p>
     </div>
   </div>
 </div>
@@ -204,9 +204,9 @@ Use `data-sp-placement` to control the popover position (default is `bottom`).
     right
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Right</h4>
-      <p class="popover-description">Centered to the right of the trigger.</p>
+    <div class="mb-3 space-y-1">
+      <h4 class="text-sm font-medium leading-none">Right</h4>
+      <p class="text-sm text-muted-foreground">Centered to the right of the trigger.</p>
     </div>
   </div>
 </div>
@@ -233,10 +233,6 @@ A popover consists of three parts:
     Open Popover
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Title</h4>
-      <p class="popover-description">Description text here.</p>
-    </div>
     <!-- Any content -->
   </div>
 </div>
@@ -294,10 +290,7 @@ To customize animations, add `no-animation` to disable the defaults and use your
     Default
   </button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Default Animation</h4>
-      <p class="popover-description">Uses the built-in fade and zoom.</p>
-    </div>
+    <p class="text-sm">Default fade and zoom animation.</p>
   </div>
 </div>
 <div class="popover">
@@ -310,10 +303,7 @@ To customize animations, add `no-animation` to disable the defaults and use your
     No Animation
   </button>
   <div class="popover-content no-animation">
-    <div class="popover-header">
-      <h4 class="popover-title">No Animation</h4>
-      <p class="popover-description">Animations are disabled.</p>
-    </div>
+    <p class="text-sm">Animations are disabled.</p>
   </div>
 </div>
 <div class="popover">
@@ -328,10 +318,7 @@ To customize animations, add `no-animation` to disable the defaults and use your
   <div
     class="popover-content no-animation data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-2"
   >
-    <div class="popover-header">
-      <h4 class="popover-title">Custom Animation</h4>
-      <p class="popover-description">Slides in from the top.</p>
-    </div>
+    <p class="text-sm">Slides in from the top.</p>
   </div>
 </div>
 <!-- END https://startingpointui.com/examples/docs/popover/4 -->
@@ -364,23 +351,17 @@ The JavaScript will automatically update `aria-expanded` when the popover opens 
 
 All available classes for the popover component.
 
-| Class                 | Description                                       |
-| --------------------- | ------------------------------------------------- |
-| `popover`             | Container for the popover                         |
-| `popover-content`     | The floating content panel                        |
-| `popover-header`      | Optional header wrapper for title and description |
-| `popover-title`       | Title text                                        |
-| `popover-description` | Description text                                  |
-| `no-animation`        | Disables default animation on popover-content     |
+| Class             | Description                                   |
+| ----------------- | --------------------------------------------- |
+| `popover`         | Container for the popover                     |
+| `popover-content` | The floating content panel                    |
+| `no-animation`    | Disables default animation on popover-content |
 
 ```html
 <div class="popover">
   <button data-sp-toggle="popover">Open</button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Title</h4>
-      <p class="popover-description">Description</p>
-    </div>
+    <!-- Any content -->
   </div>
 </div>
 ```
@@ -399,10 +380,7 @@ All data attributes for the popover component.
 <div class="popover" data-sp-placement="bottom-start">
   <button data-sp-toggle="popover" aria-expanded="false">Open</button>
   <div class="popover-content">
-    <div class="popover-header">
-      <h4 class="popover-title">Title</h4>
-      <p class="popover-description">Description</p>
-    </div>
+    <!-- Any content -->
   </div>
 </div>
 ```

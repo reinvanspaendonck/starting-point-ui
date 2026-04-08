@@ -16,21 +16,3 @@
     }
   }
 }
-
-@utility popover-header {
-  @layer l1.l2 {
-    @apply mb-3 space-y-1;
-  }
-}
-
-@utility popover-title {
-  @layer l1.l2 {
-    @apply text-sm font-medium leading-none;
-  }
-}
-
-@utility popover-description {
-  @layer l1.l2 {
-    @apply text-sm text-muted-foreground;
-  }
-}
