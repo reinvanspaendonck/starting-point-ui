@@ -5,7 +5,7 @@ import * as collapsible from "./collapsible";
 import * as combobox from "./combobox";
 import * as dialog from "./dialog";
 import * as dropdown from "./dropdown";
-import "./popover";
+import * as popover from "./popover";
 import * as resizable from "./resizable";
 import * as sidebar from "./sidebar";
 import * as tabs from "./tabs";
@@ -17,6 +17,7 @@ export {
   combobox,
   dialog,
   dropdown,
+  popover,
   resizable,
   sidebar,
   tabs,
@@ -30,6 +31,7 @@ declare global {
       combobox: typeof combobox;
       dialog: typeof dialog;
       dropdown: typeof dropdown;
+      popover: typeof popover;
       resizable: typeof resizable;
       sidebar: typeof sidebar;
       tabs: typeof tabs;
@@ -44,6 +46,7 @@ if (typeof window !== "undefined") {
     combobox,
     dialog,
     dropdown,
+    popover,
     resizable,
     sidebar,
     tabs,

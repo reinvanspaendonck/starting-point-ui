@@ -41,7 +41,7 @@ async function positionContent(popover: HTMLElement) {
   });
 }
 
-function open(popover: HTMLElement) {
+export function open(popover: HTMLElement) {
   const content = getContent(popover);
   if (!content || content.classList.contains("open")) return;
 
@@ -64,7 +64,7 @@ function open(popover: HTMLElement) {
   }
 }
 
-async function close(popover: HTMLElement) {
+export async function close(popover: HTMLElement) {
   const content = getContent(popover);
   if (!content || !content.classList.contains("open")) return;
 
@@ -81,7 +81,7 @@ async function close(popover: HTMLElement) {
   trigger?.focus();
 }
 
-function toggle(popover: HTMLElement) {
+export function toggle(popover: HTMLElement) {
   const content = getContent(popover);
   if (content?.classList.contains("open")) {
     close(popover);
