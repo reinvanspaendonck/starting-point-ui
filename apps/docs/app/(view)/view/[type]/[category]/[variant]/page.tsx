@@ -51,7 +51,10 @@ export default async function ViewPage({ params }: { params: Params }) {
   const classes = preset ? getPresetClasses(preset) : "";
 
   return (
-    <div className={`lg:min-h-dvh bg-background ${classes}`}>
+    <div
+      className={`lg:min-h-dvh bg-background ${classes}`}
+      data-preset={preset}
+    >
       <Component />
     </div>
   );

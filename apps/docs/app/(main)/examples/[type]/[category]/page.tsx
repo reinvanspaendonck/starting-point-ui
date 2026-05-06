@@ -48,7 +48,7 @@ export default async function CategoryPage({
         {examples.map((ex) => (
           <Example
             key={ex.variant}
-            description={ex.description}
+            description={`${ex.variant}: ${ex.description}`}
             viewSrc={`/view/${type}/${category}/${ex.variant}`}
             highlightedCode={ex.highlightedCode}
           />

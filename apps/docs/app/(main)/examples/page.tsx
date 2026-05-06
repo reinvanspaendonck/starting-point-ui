@@ -3,6 +3,7 @@ import { allExamplesMeta, getAllCategories } from "@/lib/examples";
 import { ExampleHeader } from "@/components/example-header";
 import { CardIllustration } from "@/components/illustrations/card";
 import { SidebarIllustration } from "@/components/illustrations/sidebar";
+import { DialogIllustration } from "@/components/illustrations/dialog";
 
 export const metadata = {
   title: allExamplesMeta.title,
@@ -27,7 +28,13 @@ export default async function AllExamplesPage() {
             className="block hover:opacity-90 transition-opacity text-center"
           >
             <div className="flex items-center justify-center h-64 rounded-xl bg-muted p-8 *:w-full">
-              {c.category === "sidebar" ? <SidebarIllustration /> : <CardIllustration />}
+              {c.category === "sidebar" ? (
+                <SidebarIllustration />
+              ) : c.category === "dialog" ? (
+                <DialogIllustration />
+              ) : (
+                <CardIllustration />
+              )}
             </div>
             <h2 className="mt-6 text-base/none font-semibold">
               {c.title.replace(" Examples", "")}

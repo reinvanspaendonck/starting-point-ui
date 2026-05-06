@@ -6,6 +6,7 @@
     "dev": "next dev --webpack",
     "prebuild": "tsx scripts/collect-examples.ts && tsx scripts/generate-search-index.ts",
     "collect-examples": "tsx scripts/collect-examples.ts",
+    "reorder-examples": "tsx scripts/reorder-examples.ts",
     "build": "next build",
     "generate-search": "tsx scripts/generate-search-index.ts",
     "start": "next start",
