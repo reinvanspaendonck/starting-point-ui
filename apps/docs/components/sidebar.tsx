@@ -52,7 +52,7 @@ const navigation = [
 
 export function Sidebar() {
   return (
-    <nav>
+    <nav className="sidebar-menu">
       {navigation.map((category) => (
         <div key={category.title} className="menu-group">
           <h4 className="menu-label">{category.title}</h4>
