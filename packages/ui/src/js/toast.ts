@@ -94,22 +94,27 @@ function renderContent(el: HTMLElement, title: string, type: ToastType, descript
   el.classList.remove(...TYPE_CLASSES);
   if (type !== "default") el.classList.add(`toast-${type}`);
 
-  let icon = el.querySelector<HTMLElement>(".toast-icon");
+  const content = el.querySelector<HTMLElement>(".toast-content")!;
+  const titleEl = content.querySelector<HTMLElement>(".toast-title")!;
+
+  let icon = titleEl.querySelector<HTMLElement>(".toast-icon");
   if (type !== "default") {
     if (!icon) {
       icon = document.createElement("div");
       icon.className = "toast-icon";
-      const closeBtn = el.querySelector(".toast-close");
-      if (closeBtn) closeBtn.after(icon);
-      else el.prepend(icon);
+      titleEl.prepend(icon);
     }
   } else if (icon) {
     icon.remove();
   }
 
-  const content = el.querySelector<HTMLElement>(".toast-content")!;
-  const titleEl = content.querySelector<HTMLElement>(".toast-title")!;
-  titleEl.textContent = title;
+  // Update only the title text node, preserving the icon child.
+  let textNode = [...titleEl.childNodes].find((n) => n.nodeType === Node.TEXT_NODE);
+  if (!textNode) {
+    textNode = document.createTextNode("");
+    titleEl.appendChild(textNode);
+  }
+  textNode.textContent = title;
 
   let descEl = content.querySelector<HTMLElement>(".toast-description");
   if (description) {
