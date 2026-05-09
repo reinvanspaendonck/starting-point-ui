@@ -2,17 +2,25 @@
 
 /* Toast classes are applied by JS at runtime, so they never appear in the
    user's source files for Tailwind to scan. Force-emit them. */
-@source inline("{toast,toast-panel,toast-content,toast-title,toast-description,toast-icon,toast-close,toast-action,toast-success,toast-error,toast-warning,toast-info,toast-loading,toast-top-left,toast-top-right,toast-top-center,toast-bottom-left,toast-bottom-right,toast-bottom-center}");
+@source inline("{toaster,toast,toast-content,toast-title,toast-description,toast-icon,toast-close,toast-action,toast-success,toast-error,toast-warning,toast-info,toast-loading,toaster-top-left,toaster-top-right,toaster-top-center,toaster-bottom-left,toaster-bottom-right,toaster-bottom-center}");
 
-@utility toast {
+@utility toaster {
   @layer l1.l2 {
-    @apply fixed z-999 pointer-events-none list-none m-0 p-0;
+    @apply fixed pointer-events-none list-none m-0 p-0 bg-transparent border-0 overflow-visible;
     @apply max-xs:left-4 max-xs:right-4;
     @apply xs:w-[356px];
+
+    /* Reset popover defaults */
+    inset: auto;
+    height: auto;
+
+    &:popover-open {
+      display: block;
+    }
   }
 }
 
-@utility toast-panel {
+@utility toast {
   @layer l1.l2 {
     @apply pointer-events-auto absolute w-full flex items-center gap-2.5 rounded-popover border border-popover-border bg-popover p-4 text-[13px] text-popover-foreground shadow-popover;
 
@@ -20,69 +28,65 @@
       @apply items-start;
     }
 
-    --toast-exit-duration: 300ms;
-    transition: transform var(--toast-exit-duration), opacity 150ms;
-    opacity: 0;
-    transform: translateY(100%);
+    transition: transform 300ms, opacity 150ms;
 
-    &[data-mounted="true"] {
-      opacity: 1;
-      transform: translateY(var(--offset));
-    }
-
-    &[data-dismissed="true"] {
+    &[data-state="closed"] {
       opacity: 0;
       transform: translateY(100%);
+    }
+
+    &[data-state="open"] {
+      opacity: 1;
+      transform: translateY(var(--offset, 0px));
     }
   }
 }
 
-@utility toast-bottom-right {
+@utility toaster-bottom-right {
   @layer l1 {
     @apply bottom-6 xs:right-6;
   }
 }
 
-@utility toast-bottom-left {
+@utility toaster-bottom-left {
   @layer l1 {
     @apply bottom-6 xs:left-6;
   }
 }
 
-@utility toast-bottom-center {
+@utility toaster-bottom-center {
   @layer l1 {
     @apply bottom-6 xs:left-1/2 xs:-translate-x-1/2;
   }
 }
 
-@utility toast-top-right {
+@utility toaster-top-right {
   @layer l1 {
     @apply top-6 xs:right-6;
   }
 }
 
-@utility toast-top-left {
+@utility toaster-top-left {
   @layer l1 {
     @apply top-6 xs:left-6;
   }
 }
 
-@utility toast-top-center {
+@utility toaster-top-center {
   @layer l1 {
     @apply top-6 xs:left-1/2 xs:-translate-x-1/2;
   }
 }
 
 @layer l1 {
-  :is(.toast-bottom-left, .toast-bottom-right, .toast-bottom-center) .toast-panel {
+  :is(.toaster-bottom-left, .toaster-bottom-right, .toaster-bottom-center) .toast {
     bottom: 0;
   }
 
-  :is(.toast-top-left, .toast-top-right, .toast-top-center) .toast-panel {
+  :is(.toaster-top-left, .toaster-top-right, .toaster-top-center) .toast {
     top: 0;
 
-    &:not([data-mounted="true"]),
-    &[data-dismissed="true"] {
+    &[data-state="closed"] {
       transform: translateY(-100%);
     }
   }
@@ -91,7 +95,7 @@
 @utility toast-icon {
   @layer l1.l2 {
     @apply shrink-0 size-4;
-    @apply [.toast-panel:has(.toast-description)_&]:mt-[1.5px];
+    @apply [.toast:has(.toast-description)_&]:mt-[1.5px];
 
     &::before {
       @apply block size-full;
@@ -126,7 +130,7 @@
   @layer l1.l2 {
     @apply absolute -top-2.5 -left-2.5 flex size-5 items-center justify-center rounded-full border border-popover-border bg-popover cursor-pointer opacity-0 transition-opacity;
 
-    .toast-panel:hover & {
+    .toast:hover & {
       @apply opacity-100;
     }
 

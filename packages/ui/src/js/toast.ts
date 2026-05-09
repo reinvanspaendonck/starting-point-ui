@@ -1,5 +1,7 @@
 // Starting Point UI Toast Module
 
+import { waitForAnimations } from "./utils";
+
 export interface ToastOptions {
   type?: ToastType;
   description?: string;
@@ -58,11 +60,13 @@ function getContainer(position: string) {
   if (entry) return entry;
 
   const container = document.createElement("ol");
-  container.classList.add("toast", `toast-${position}`);
+  container.classList.add("toaster", `toaster-${position}`);
   container.setAttribute("data-sp-toast-container", "");
   container.setAttribute("aria-live", "polite");
   container.setAttribute("aria-atomic", "false");
+  container.setAttribute("popover", "manual");
   document.body.appendChild(container);
+  container.showPopover();
 
   entry = { element: container, toasts: [] };
   containers.set(position, entry);
@@ -127,7 +131,7 @@ function createToastElement(
   options: ToastOptions,
 ): HTMLElement {
   const el = document.createElement("li");
-  el.classList.add("toast-panel");
+  el.classList.add("toast");
   el.setAttribute("role", "status");
   el.setAttribute("data-toast-id", id);
 
@@ -173,7 +177,8 @@ function show(title: string, type: ToastType, options: ToastOptions): ToastInsta
   const container = getContainer(position);
   const element = createToastElement(id, title, type, options);
 
-  // Add to DOM to measure height
+  // Append in closed state so we can measure without flashing the entry style.
+  element.setAttribute("data-state", "closed");
   container.element.appendChild(element);
   const height = element.getBoundingClientRect().height;
 
@@ -184,28 +189,31 @@ function show(title: string, type: ToastType, options: ToastOptions): ToastInsta
 
   updateOffsets(position);
 
-  // Trigger mount animation on next frame
+  // Trigger mount animation on next frame.
   requestAnimationFrame(() => {
-    element.setAttribute("data-mounted", "true");
+    element.setAttribute("data-state", "open");
   });
 
   if (duration > 0) {
     entry.timer = setTimeout(() => dismiss(id), duration);
   }
 
-  // Pause timer on hover, restart on leave
-  element.addEventListener("mouseenter", () => {
+  // Pause timer on hover/focus, restart on leave/blur.
+  function pauseTimer() {
     if (entry.timer) {
       clearTimeout(entry.timer);
       entry.timer = null;
     }
-  });
-
-  element.addEventListener("mouseleave", () => {
-    if (duration > 0) {
+  }
+  function resumeTimer() {
+    if (duration > 0 && !entry.timer) {
       entry.timer = setTimeout(() => dismiss(id), duration);
     }
-  });
+  }
+  element.addEventListener("mouseenter", pauseTimer);
+  element.addEventListener("mouseleave", resumeTimer);
+  element.addEventListener("focusin", pauseTimer);
+  element.addEventListener("focusout", resumeTimer);
 
   return {
     id,
@@ -223,8 +231,6 @@ export async function dismiss(id: string) {
 
   if (entry.timer) clearTimeout(entry.timer);
 
-  entry.element.setAttribute("data-dismissed", "true");
-
   const idx = container.toasts.indexOf(entry);
   if (idx !== -1) container.toasts.splice(idx, 1);
   byId.delete(id);
@@ -233,27 +239,23 @@ export async function dismiss(id: string) {
     updateOffsets(entry.position);
   }
 
-  const exitMs = parseFloat(getComputedStyle(entry.element).getPropertyValue("--toast-exit-duration")) || 300;
-  await new Promise((r) => setTimeout(r, exitMs));
+  entry.element.setAttribute("data-state", "closed");
+  await waitForAnimations([entry.element]);
 
   entry.element.remove();
 
   if (container.toasts.length === 0) {
+    if (container.element.matches(":popover-open")) {
+      container.element.hidePopover();
+    }
     container.element.remove();
     containers.delete(entry.position);
   }
 }
 
-export function dismissAll() {
-  for (const [, container] of containers) {
-    for (const t of container.toasts) {
-      if (t.timer) clearTimeout(t.timer);
-      t.element.remove();
-      byId.delete(t.id);
-    }
-    container.element.remove();
-  }
-  containers.clear();
+export async function dismissAll() {
+  const ids = [...byId.keys()];
+  await Promise.all(ids.map((id) => dismiss(id)));
 }
 
 export function update(id: string, options: ToastUpdateOptions) {
