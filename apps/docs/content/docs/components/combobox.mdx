@@ -13,7 +13,7 @@ A Tailwind CSS combobox component that combines a trigger button with a searchab
   data-sp-target="#combobox-framework"
   aria-expanded="false"
 >
-  <span class="combobox-value">Select a framework...</span>
+  <span class="combobox-value" data-sp-placeholder="Select a framework..."></span>
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
 </button>
 <div id="combobox-framework" class="combobox" role="listbox">
@@ -65,7 +65,7 @@ Pair with a [Label](/docs/components/label) and wrap in a [Field](/docs/componen
       aria-expanded="false"
       aria-labelledby="framework-label"
     >
-      <span class="combobox-value">Select a framework...</span>
+      <span class="combobox-value" data-sp-placeholder="Select a framework..."></span>
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
     </button>
     <div id="combobox-labelled" class="combobox" role="listbox">
@@ -115,7 +115,7 @@ Use `<input type="radio">` inside each item for single select. Clicking an item 
   data-sp-target="#combobox-single"
   aria-expanded="false"
 >
-  <span class="combobox-value">Select a framework...</span>
+  <span class="combobox-value" data-sp-placeholder="Select a framework..."></span>
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
 </button>
 <div id="combobox-single" class="combobox" role="listbox">
@@ -153,7 +153,7 @@ Use `<input type="radio">` inside each item for single select. Clicking an item 
 
 ## Multi-select
 
-Use `<input type="checkbox">` inside each item for multi-select. The menu stays open after selection, and the trigger shows "N name selected" for two or more selections.
+Use `<input type="checkbox">` inside each item for multi-select. The menu stays open after selection. When two or more items are selected, the trigger collapses to "N selected" automatically.
 
 ```html preview
 <button
@@ -163,7 +163,7 @@ Use `<input type="checkbox">` inside each item for multi-select. The menu stays 
   data-sp-target="#combobox-multi"
   aria-expanded="false"
 >
-  <span class="combobox-value">Select tools...</span>
+  <span class="combobox-value" data-sp-placeholder="Select tools..."></span>
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
 </button>
 <div id="combobox-multi" class="combobox" role="listbox">
@@ -197,7 +197,7 @@ Use `<input type="checkbox">` inside each item for multi-select. The menu stays 
 
 ## Pre-selected value
 
-Add `checked` to the input and `aria-selected="true"` to the item. Set the trigger text to the selected label and store the placeholder in `data-placeholder`.
+Add `checked` to the input and `aria-selected="true"` to the item, then render one `<span>` child per selection inside `.combobox-value`. The CSS handles single / multi states automatically.
 
 ```html preview
 <button
@@ -207,8 +207,8 @@ Add `checked` to the input and `aria-selected="true"` to the item. Set the trigg
   data-sp-target="#combobox-preselected"
   aria-expanded="false"
 >
-  <span class="combobox-value" data-placeholder="Select a framework...">
-    SvelteKit
+  <span class="combobox-value" data-sp-placeholder="Select a framework...">
+    <span>SvelteKit</span>
   </span>
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
 </button>
@@ -245,6 +245,86 @@ Add `checked` to the input and `aria-selected="true"` to the item. Set the trigg
 
 ---
 
+## Static trigger
+
+For triggers that should never show selection state (e.g. an action menu disguised as a combobox, or a column-visibility toggle), add `data-sp-static` to `.combobox-value`. The placeholder text becomes a permanent label rendered in the default foreground color, and the JS never replaces its content.
+
+```html preview
+<button
+  class="combobox-trigger w-32"
+  type="button"
+  data-sp-toggle="combobox"
+  data-sp-target="#combobox-static"
+  aria-expanded="false"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
+  <span class="combobox-value" data-sp-placeholder="View" data-sp-static></span>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+</button>
+<div id="combobox-static" class="combobox" role="listbox">
+  <div class="combobox-list">
+    <div class="combobox-item" role="option" tabindex="0" aria-selected="true">
+      <input type="checkbox" class="sr-only" tabindex="-1" name="cols" value="name" checked />
+      Name
+    </div>
+    <div class="combobox-item" role="option" tabindex="0" aria-selected="true">
+      <input type="checkbox" class="sr-only" tabindex="-1" name="cols" value="email" checked />
+      Email
+    </div>
+    <div class="combobox-item" role="option" tabindex="0">
+      <input type="checkbox" class="sr-only" tabindex="-1" name="cols" value="role" />
+      Role
+    </div>
+  </div>
+</div>
+```
+
+---
+
+## Submit a form on close
+
+Add `data-sp-submit-on-close` to a trigger to auto-submit the enclosing `<form>` when the combobox closes, but only if selections changed since open. With no value the closest ancestor form is submitted; with a value it's treated as a form id.
+
+This is ideal for filter toolbars — no Apply button required.
+
+```html
+<form id="filters" action="/team" method="GET">
+  <!-- Inside the form: no value, uses closest ancestor form -->
+  <button
+    class="combobox-trigger w-44"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#combobox-role"
+    data-sp-submit-on-close
+    aria-expanded="false"
+  >
+    <span class="combobox-value" data-sp-placeholder="Role"></span>
+    <svg>...</svg>
+  </button>
+  <div id="combobox-role" class="combobox" role="listbox">
+    <!-- items with name="roles[]" -->
+  </div>
+</form>
+
+<!-- Outside the form: explicit form id -->
+<button
+  class="combobox-trigger w-44"
+  type="button"
+  data-sp-toggle="combobox"
+  data-sp-target="#combobox-sort"
+  data-sp-submit-on-close="filters"
+  aria-expanded="false"
+>
+  <span class="combobox-value" data-sp-placeholder="Sort"></span>
+  <svg>...</svg>
+</button>
+<div id="combobox-sort" class="combobox" role="listbox">
+  <!-- items with name="sort" -->
+</div>
+```
+
+---
+
 ## With labels
 
 Use `.combobox-label` and `.combobox-separator` to group options visually.
@@ -257,7 +337,7 @@ Use `.combobox-label` and `.combobox-separator` to group options visually.
   data-sp-target="#combobox-grouped"
   aria-expanded="false"
 >
-  <span class="combobox-value">Select a language...</span>
+  <span class="combobox-value" data-sp-placeholder="Select a language..."></span>
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
 </button>
 <div id="combobox-grouped" class="combobox" role="listbox">
@@ -308,7 +388,7 @@ Use `aria-disabled="true"` and `tabindex="-1"` on a `.combobox-item` to prevent 
   data-sp-target="#combobox-disabled"
   aria-expanded="false"
 >
-  <span class="combobox-value">Select a plan...</span>
+  <span class="combobox-value" data-sp-placeholder="Select a plan..."></span>
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
 </button>
 <div id="combobox-disabled" class="combobox" role="listbox">
@@ -355,7 +435,7 @@ Each item contains a visually hidden `<input type="radio">` (single select) or `
   data-sp-target="#my-combobox"
   aria-expanded="false"
 >
-  <span class="combobox-value">Select an option...</span>
+  <span class="combobox-value" data-sp-placeholder="Select an option..."></span>
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
 </button>
 <div id="my-combobox" class="combobox" role="listbox">
@@ -406,26 +486,12 @@ sp.combobox.filter(menu, "next");
 
 ### Selection
 
-When an item is selected, the module checks the item's radio or checkbox input and updates `aria-selected` on the item. The `.combobox-value` text is updated with the selected label.
-
-A native `change` event is dispatched from the input and bubbles up through the DOM. Listen for it on the menu, a parent form, or any ancestor:
+A native `change` event is dispatched from the item's input and bubbles up through the DOM. Listen for it on the menu, a parent form, or any ancestor:
 
 ```js
 document.getElementById("my-combobox").addEventListener("change", (e) => {
   console.log(e.target.name, e.target.value, e.target.checked);
 });
-```
-
-### Placeholder
-
-The `.combobox-value` span shows muted text when no `data-placeholder` attribute is present (the default state). When a selection is made, the original text is stored in `data-placeholder` and the trigger text updates to the selected label.
-
-For pre-selected values, set `data-placeholder` to the placeholder text and the trigger text to the selected label:
-
-```html
-<span class="combobox-value" data-placeholder="Select a framework...">
-  SvelteKit
-</span>
 ```
 
 ### Animation
@@ -499,7 +565,7 @@ Add `aria-expanded="false"` to the trigger button. It toggles to `"true"` when t
 | -------------------- | ------------------------------------------------------------------ |
 | `combobox`           | Floating panel containing the search input and list                |
 | `combobox-trigger`   | Button that opens and closes the menu                              |
-| `combobox-value`     | Span inside the trigger for the selected label or placeholder text |
+| `combobox-value`     | Span inside the trigger holding selection children or placeholder  |
 | `combobox-search`    | Row containing the search icon and input                           |
 | `combobox-input`     | Borderless text input for filtering options                        |
 | `combobox-list`      | Scrollable container for the list of options                       |
@@ -511,14 +577,16 @@ Add `aria-expanded="false"` to the trigger button. It toggles to `"true"` when t
 
 ### Data attributes
 
-| Attribute                   | Element            | Description                                                  |
-| --------------------------- | ------------------ | ------------------------------------------------------------ |
-| `data-sp-toggle="combobox"` | Trigger button     | Marks the trigger                                            |
-| `data-sp-target="#id"`      | Trigger button     | The id of the linked `.combobox` menu                        |
-| `data-sp-placement`         | Trigger button     | Menu placement relative to trigger (default: `bottom-start`) |
-| `data-sp-offset`            | Trigger button     | Distance from trigger in pixels (default: `4`)               |
-| `aria-expanded`             | Trigger button     | Set `"false"` initially; JS toggles on open/close            |
-| `data-placeholder`          | `.combobox-value`  | Stores the original placeholder text after first selection   |
-| `data-state`                | `.combobox`        | Set to `open` when menu is visible                           |
-| `aria-disabled="true"`      | `.combobox-item`   | Disables the item visually and functionally                  |
-| `aria-selected="true"`      | `.combobox-item`   | Marks the item as currently selected                         |
+| Attribute                   | Element            | Description                                                                                  |
+| --------------------------- | ------------------ | -------------------------------------------------------------------------------------------- |
+| `data-sp-toggle="combobox"` | Trigger button     | Marks the trigger                                                                            |
+| `data-sp-target="#id"`      | Trigger button     | The id of the linked `.combobox` menu                                                        |
+| `data-sp-placement`         | Trigger button     | Menu placement relative to trigger (default: `bottom-start`)                                 |
+| `data-sp-offset`            | Trigger button     | Distance from trigger in pixels (default: `4`)                                               |
+| `data-sp-submit-on-close`   | Trigger button     | Submit the enclosing form (or form id) on close when selections changed                      |
+| `aria-expanded`             | Trigger button     | Set `"false"` initially; JS toggles on open/close                                            |
+| `data-sp-placeholder`       | `.combobox-value`  | Empty-state text rendered via CSS when no children are present                               |
+| `data-sp-static`            | `.combobox-value`  | Opt out of JS-driven updates; placeholder becomes a permanent foreground label               |
+| `data-state`                | `.combobox`        | Set to `open` when menu is visible                                                           |
+| `aria-disabled="true"`      | `.combobox-item`   | Disables the item visually and functionally                                                  |
+| `aria-selected="true"`      | `.combobox-item`   | Marks the item as currently selected                                                         |

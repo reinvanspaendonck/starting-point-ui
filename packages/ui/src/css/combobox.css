@@ -2,7 +2,7 @@
 
 @utility combobox-trigger {
     @layer l1.l2 {
-      @apply h-9 inline-flex w-full cursor-pointer items-center justify-between gap-2 rounded-input border border-input-border bg-input text-input-foreground px-3 text-sm shadow-input transition-[color,box-shadow] outline-none;
+      @apply h-9 inline-flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-input border border-input-border bg-input text-input-foreground px-3 text-sm shadow-input transition-[color,box-shadow] outline-none;
       @apply disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50;
       @apply focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px];
       @apply aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive;
@@ -12,10 +12,32 @@
   
   @utility combobox-value {
     @layer l1.l2 {
-      @apply flex-1 truncate text-left;
-  
-      &:not([data-placeholder]) {
+      @apply flex flex-1 items-center truncate text-left;
+      counter-reset: items;
+
+      /* Render placeholder text from data-sp-placeholder when no children are present */
+      &[data-sp-placeholder]:not(:has(> *))::before {
+        content: attr(data-sp-placeholder);
+      }
+
+      /* Dynamic triggers show the placeholder as a muted hint; static triggers
+         use the placeholder as the permanent label, so leave it at default color. */
+      &[data-sp-placeholder]:not([data-sp-static])::before {
         @apply text-muted-foreground;
+      }
+
+      /* Each direct child increments the counter */
+      & > * {
+        counter-increment: items;
+      }
+
+      /* When 2+ children, hide them off-screen (display:none would skip counter-increment) and render "N selected" via counter */
+      &:has(> *:nth-child(2)) > * {
+        @apply sr-only;
+      }
+
+      &:has(> *:nth-child(2))::after {
+        content: counter(items) " selected";
       }
     }
   }

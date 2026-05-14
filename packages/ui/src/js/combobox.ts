@@ -43,6 +43,30 @@ export function filter(menu: HTMLElement, query: string) {
   }
 }
 
+// Build a stable key from the currently-checked items so we can detect
+// whether selections changed between open and close.
+function getSelectionKey(menu: HTMLElement): string {
+  return [
+    ...menu.querySelectorAll<HTMLInputElement>(".combobox-item input:checked"),
+  ]
+    .map((input) => `${input.name}:${input.value}`)
+    .sort()
+    .join("|");
+}
+
+// Snapshot the selection state per trigger; compared on close to decide
+// whether to submit the associated form.
+const openSnapshots = new WeakMap<HTMLElement, string>();
+
+function findFormFor(trigger: HTMLElement): HTMLFormElement | null {
+  const formId = trigger.getAttribute("data-sp-submit-on-close");
+  if (formId) {
+    const el = document.getElementById(formId);
+    return el instanceof HTMLFormElement ? el : null;
+  }
+  return trigger.closest("form");
+}
+
 const OPTS: AnchorOptions = {
   contentSelector: CONTENT_SELECTOR,
   triggerSelector: TRIGGER_SELECTOR,
@@ -54,10 +78,31 @@ const OPTS: AnchorOptions = {
       offset: parseInt(trigger.dataset.spOffset || "4", 10),
     });
   },
-  onAfterClose: (_trigger, menu) => {
+  onAfterOpen: (trigger, menu) => {
+    if (trigger.hasAttribute("data-sp-submit-on-close")) {
+      openSnapshots.set(trigger, getSelectionKey(menu));
+    }
+  },
+  onAfterClose: (trigger, menu) => {
     filter(menu, "");
     const input = menu.querySelector<HTMLInputElement>(".combobox-input");
     if (input) input.value = "";
+
+    // If the trigger opts in and the selection changed since open, submit
+    // the associated form (explicit id via attribute value, or the
+    // enclosing form when value is empty).
+    if (trigger.hasAttribute("data-sp-submit-on-close")) {
+      const before = openSnapshots.get(trigger);
+      openSnapshots.delete(trigger);
+      const after = getSelectionKey(menu);
+      if (before !== undefined && before !== after) {
+        const form = findFormFor(trigger);
+        if (form) {
+          if (typeof form.requestSubmit === "function") form.requestSubmit();
+          else form.submit();
+        }
+      }
+    }
   },
 };
 
@@ -71,56 +116,49 @@ export const toggle = (trigger: HTMLElement) => {
   if (menu) toggleAnchor(trigger, menu, OPTS, { viaClick: true });
 };
 
+function getItemLabel(input: HTMLInputElement): string {
+  return (
+    input.closest<HTMLElement>(".combobox-item")?.textContent?.trim() ?? ""
+  );
+}
+
+function makeValueItem(text: string): HTMLSpanElement {
+  const el = document.createElement("span");
+  el.textContent = text;
+  return el;
+}
+
 function updateTriggerText(trigger: HTMLElement, menu: HTMLElement) {
+  const valueEl = trigger.querySelector<HTMLElement>(".combobox-value");
+  if (!valueEl || valueEl.hasAttribute("data-sp-static")) return;
+
   const checked = menu.querySelectorAll<HTMLInputElement>(
     ".combobox-item input:checked",
   );
-  const valueEl = trigger.querySelector<HTMLElement>(".combobox-value");
-  if (!valueEl) return;
-
-  if (checked.length === 0) {
-    if (valueEl.dataset.placeholder) {
-      valueEl.textContent = valueEl.dataset.placeholder;
-      valueEl.removeAttribute("data-placeholder");
-    }
-  } else {
-    if (!valueEl.dataset.placeholder) {
-      valueEl.dataset.placeholder = valueEl.textContent ?? "";
-    }
-    if (checked.length === 1) {
-      valueEl.textContent =
-        checked[0].closest<HTMLElement>(".combobox-item")?.textContent?.trim() ??
-        "";
-    } else {
-      const name = checked[0].name ?? "items";
-      valueEl.textContent = `${checked.length} ${name} selected`;
-    }
-  }
+  valueEl.replaceChildren(
+    ...[...checked].map((input) => makeValueItem(getItemLabel(input))),
+  );
 }
 
 export function select(trigger: HTMLElement, menu: HTMLElement, item: HTMLElement) {
   const input = item.querySelector<HTMLInputElement>("input");
-  const isMultiple = input?.type === "checkbox";
+  if (!input) return;
 
-  if (isMultiple) {
-    if (input) {
-      input.checked = !input.checked;
-      input.dispatchEvent(new Event("change", { bubbles: true }));
-    }
-    item.setAttribute("aria-selected", String(input?.checked ?? false));
-    updateTriggerText(trigger, menu);
-  } else {
+  const isMultiple = input.type === "checkbox";
+
+  // Radio behavior: clear sibling items' selected state before flipping this one on.
+  if (!isMultiple) {
     menu.querySelectorAll<HTMLElement>(".combobox-item").forEach((el) => {
       el.setAttribute("aria-selected", "false");
     });
-    if (input) {
-      input.checked = true;
-      input.dispatchEvent(new Event("change", { bubbles: true }));
-    }
-    item.setAttribute("aria-selected", "true");
-    updateTriggerText(trigger, menu);
-    closeAnchor(menu, OPTS);
   }
+
+  input.checked = isMultiple ? !input.checked : true;
+  input.dispatchEvent(new Event("change", { bubbles: true }));
+  item.setAttribute("aria-selected", String(input.checked));
+  updateTriggerText(trigger, menu);
+
+  if (!isMultiple) closeAnchor(menu, OPTS);
 }
 
 function handleClick(e: MouseEvent) {
