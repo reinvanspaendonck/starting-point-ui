@@ -281,11 +281,22 @@ For triggers that should never show selection state (e.g. an action menu disguis
 
 ---
 
-## Submit a form on close
+## Submit a form
 
-Add `data-sp-submit-on-close` to a trigger to auto-submit the enclosing `<form>` when the combobox closes, but only if selections changed since open. With no value the closest ancestor form is submitted; with a value it's treated as a form id.
+Combobox triggers can auto-submit their associated `<form>` so filter toolbars don't need an Apply button. Two trigger conditions are available:
 
-This is ideal for filter toolbars — no Apply button required.
+| Attribute                    | Submits when…                                                                      |
+| ---------------------------- | ---------------------------------------------------------------------------------- |
+| `data-sp-submit-on-close`    | The combobox closes, and selections changed since open (one submit per close)      |
+| `data-sp-submit-on-change`   | Any item inside the menu is toggled (one submit per toggle)                        |
+
+Both attributes accept the same optional value: a form id. With no value the closest ancestor `<form>` is submitted; with a value the matching `<form id="...">` is submitted instead.
+
+Don't put both attributes on the same trigger. Pick one trigger condition per combobox — they're meant as alternatives, and combining them produces duplicate submits.
+
+### On close
+
+Use `data-sp-submit-on-close` when the user is likely to make several selections before being done. The form submits once when the menu closes.
 
 ```html
 <form id="filters" action="/team" method="GET">
@@ -321,6 +332,29 @@ This is ideal for filter toolbars — no Apply button required.
 <div id="combobox-sort" class="combobox" role="listbox">
   <!-- items with name="sort" -->
 </div>
+```
+
+### On change
+
+Use `data-sp-submit-on-change` for controls where each toggle should take effect immediately, like a column-visibility picker. The form submits every time an item inside the menu changes.
+
+```html
+<form id="filters" action="/team" method="GET">
+  <button
+    class="combobox-trigger"
+    type="button"
+    data-sp-toggle="combobox"
+    data-sp-target="#combobox-cols"
+    data-sp-submit-on-change
+    aria-expanded="false"
+  >
+    <span class="combobox-value" data-sp-placeholder="View" data-sp-static></span>
+    <svg>...</svg>
+  </button>
+  <div id="combobox-cols" class="combobox" role="listbox">
+    <!-- items with name="cols[]" -->
+  </div>
+</form>
 ```
 
 ---
@@ -584,6 +618,7 @@ Add `aria-expanded="false"` to the trigger button. It toggles to `"true"` when t
 | `data-sp-placement`         | Trigger button     | Menu placement relative to trigger (default: `bottom-start`)                                 |
 | `data-sp-offset`            | Trigger button     | Distance from trigger in pixels (default: `4`)                                               |
 | `data-sp-submit-on-close`   | Trigger button     | Submit the enclosing form (or form id) on close when selections changed                      |
+| `data-sp-submit-on-change`  | Trigger button     | Submit the enclosing form (or form id) every time an item inside the menu is toggled         |
 | `aria-expanded`             | Trigger button     | Set `"false"` initially; JS toggles on open/close                                            |
 | `data-sp-placeholder`       | `.combobox-value`  | Empty-state text rendered via CSS when no children are present                               |
 | `data-sp-static`            | `.combobox-value`  | Opt out of JS-driven updates; placeholder becomes a permanent foreground label               |

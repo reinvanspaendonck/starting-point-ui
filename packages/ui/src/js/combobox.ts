@@ -54,17 +54,28 @@ function getSelectionKey(menu: HTMLElement): string {
     .join("|");
 }
 
-// Snapshot the selection state per trigger; compared on close to decide
-// whether to submit the associated form.
+// Snapshot the selection state per trigger; only used by the on-close submit
+// path to decide whether selections changed since open. The on-change path
+// submits unconditionally and doesn't need a snapshot.
 const openSnapshots = new WeakMap<HTMLElement, string>();
 
-function findFormFor(trigger: HTMLElement): HTMLFormElement | null {
-  const formId = trigger.getAttribute("data-sp-submit-on-close");
+function findFormFor(trigger: HTMLElement, attr: string): HTMLFormElement | null {
+  const formId = trigger.getAttribute(attr);
   if (formId) {
     const el = document.getElementById(formId);
     return el instanceof HTMLFormElement ? el : null;
   }
   return trigger.closest("form");
+}
+
+function submitForm(form: HTMLFormElement) {
+  if (typeof form.requestSubmit === "function") form.requestSubmit();
+  else form.submit();
+}
+
+function submitFormForTrigger(trigger: HTMLElement, attr: string) {
+  const form = findFormFor(trigger, attr);
+  if (form) submitForm(form);
 }
 
 const OPTS: AnchorOptions = {
@@ -96,11 +107,7 @@ const OPTS: AnchorOptions = {
       openSnapshots.delete(trigger);
       const after = getSelectionKey(menu);
       if (before !== undefined && before !== after) {
-        const form = findFormFor(trigger);
-        if (form) {
-          if (typeof form.requestSubmit === "function") form.requestSubmit();
-          else form.submit();
-        }
+        submitFormForTrigger(trigger, "data-sp-submit-on-close");
       }
     }
   },
@@ -273,6 +280,20 @@ function handleInput(e: Event) {
   if (menu) filter(menu, input.value);
 }
 
+function handleChange(e: Event) {
+  const input = e.target as HTMLElement | null;
+  if (!(input instanceof HTMLInputElement)) return;
+  if (!input.closest(".combobox-item")) return;
+
+  const menu = input.closest<HTMLElement>(CONTENT_SELECTOR);
+  if (!menu) return;
+
+  const trigger = getAnchorTrigger(menu);
+  if (!trigger?.hasAttribute("data-sp-submit-on-change")) return;
+
+  submitFormForTrigger(trigger, "data-sp-submit-on-change");
+}
+
 let initialized = false;
 
 (function init() {
@@ -283,4 +304,5 @@ let initialized = false;
   document.addEventListener("keydown", handleKeydown);
   document.addEventListener("focusout", handleFocusOut);
   document.addEventListener("input", handleInput);
+  document.addEventListener("change", handleChange);
 })();
