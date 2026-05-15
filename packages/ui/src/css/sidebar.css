@@ -74,6 +74,19 @@
 @utility sidebar-menu {
   @layer l1.l2 {
     @apply flex-1 flex flex-col overflow-y-auto;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, currentColor 20%, transparent) transparent;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: color-mix(in oklab, currentColor 20%, transparent);
+      border-radius: 6px;
+    }
   }
 }
 
