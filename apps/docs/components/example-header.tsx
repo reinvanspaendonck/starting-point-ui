@@ -27,7 +27,7 @@ export async function ExampleHeader({
           href="/examples"
           className={`btn btn-sm rounded-full ${!activeCategory ? "btn-primary" : "btn-secondary"}`}
         >
-          All
+          Featured
         </Link>
         {categories.map((c) => (
           <Link

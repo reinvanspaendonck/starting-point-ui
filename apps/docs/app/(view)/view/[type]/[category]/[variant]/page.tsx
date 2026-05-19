@@ -40,19 +40,26 @@ export default async function ViewPage({ params }: { params: Params }) {
 
   let Component: React.ComponentType;
   let preset: Preset | undefined;
+  let classList: string | undefined;
   try {
     const mod = await import(`@/examples/${type}/${category}/${variant}`);
     Component = mod.default;
     preset = mod.config?.preset;
+    classList = mod.config?.classList;
   } catch {
     return notFound();
   }
 
-  const classes = preset ? getPresetClasses(preset) : "";
+  const classes = [
+    preset ? getPresetClasses(preset) : "",
+    classList ?? "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
-      className={`lg:min-h-dvh bg-background ${classes}`}
+      className={`bg-background ${classes}`}
       data-preset={preset}
     >
       <Component />

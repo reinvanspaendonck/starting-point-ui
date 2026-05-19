@@ -5,8 +5,8 @@ import { cache } from "react";
 // --- Presets ---
 
 const presets = {
-  default: "p-4 sm:p-12 flex flex-wrap items-center justify-center gap-2 max-xxs:[zoom:0.8]",
-  dialog: "min-h-dvh flex items-center justify-center p-4 max-xxs:[zoom:0.8]",
+  default: "p-4 sm:p-12 flex flex-wrap items-center justify-center gap-2",
+  dialog: "min-h-[800px] flex items-center justify-center p-4",
   fullpage: "",
 } as const;
 
@@ -52,6 +52,17 @@ export const exampleMeta: Record<
     },
   },
 };
+
+// --- Featured ---
+
+export const featuredExamples: string[] = [
+  "components/card/1",
+  "components/card/3",
+  "components/card/4",
+  "components/card/5",
+  "components/card/6",
+  "components/card/10",
+];
 
 // --- Types ---
 
@@ -122,4 +133,55 @@ export async function generateExampleStaticParams() {
   return data.types.flatMap((t) =>
     t.categories.map((c) => ({ type: t.type, category: c.category })),
   );
+}
+
+export async function getVariant(
+  type: string,
+  category: string,
+  variant: number,
+): Promise<{ category: ExampleCategory; variant: ExampleVariant }> {
+  const cat = await getCategory(type, category);
+  const v = cat.variants.find((v) => v.variant === variant);
+  if (!v) throw new Error(`Unknown variant: ${type}/${category}/${variant}`);
+  return { category: cat, variant: v };
+}
+
+export async function generateVariantStaticParams() {
+  const data = await getData();
+  return data.types.flatMap((t) =>
+    t.categories.flatMap((c) =>
+      c.variants.map((v) => ({
+        type: t.type,
+        category: c.category,
+        variant: String(v.variant),
+      })),
+    ),
+  );
+}
+
+export type FeaturedVariant = {
+  type: string;
+  category: string;
+  categoryTitle: string;
+  variant: ExampleVariant;
+};
+
+export async function getFeaturedVariants(): Promise<FeaturedVariant[]> {
+  const results: FeaturedVariant[] = [];
+  for (const entry of featuredExamples) {
+    const [type, category, variantStr] = entry.split("/");
+    if (!type || !category || !variantStr) continue;
+    const { category: cat, variant } = await getVariant(
+      type,
+      category,
+      Number(variantStr),
+    );
+    results.push({
+      type,
+      category,
+      categoryTitle: cat.title,
+      variant,
+    });
+  }
+  return results;
 }

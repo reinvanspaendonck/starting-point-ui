@@ -1,15 +1,34 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
-import { Copy, Check, Smartphone, Monitor, Loader2 } from "lucide-react";
+import {
+  Copy,
+  Check,
+  ChevronRight,
+  Smartphone,
+  Monitor,
+  Loader2,
+} from "lucide-react";
 
 type Props = {
+  breadcrumb: {
+    type: string;
+    category: string;
+    variant: number;
+    categoryLabel: string;
+  };
   description: string;
   viewSrc: string;
   highlightedCode: string;
 };
 
-export function Example({ description, viewSrc, highlightedCode }: Props) {
+export function Example({
+  breadcrumb,
+  description,
+  viewSrc,
+  highlightedCode,
+}: Props) {
   const [view, setView] = useState<"preview" | "code">("preview");
   const [isMobile, setIsMobile] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -23,86 +42,131 @@ export function Example({ description, viewSrc, highlightedCode }: Props) {
   };
 
   return (
-    <div className="rounded-lg border overflow-hidden">
-      <div className="flex items-center justify-between px-4 h-12 border-b bg-muted/50">
-        <div className="flex items-center gap-4">
-          <div className="flex rounded border bg-muted p-0.5">
-            <button
-              onClick={() => setView("preview")}
-              className={`px-2.5 py-0.5 text-xs font-medium rounded transition-colors ${
-                view === "preview"
-                  ? "bg-background text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+    <>
+      <div className="sticky top-(--navbar-height) z-30 bg-background border-t border-b">
+        <div className="px-4 sm:px-6 h-12 flex items-center gap-4">
+          <nav className="breadcrumb text-sm">
+            <Link href="/examples" className="breadcrumb-link">
+              Examples
+            </Link>
+            <span className="breadcrumb-separator" aria-hidden="true">
+              <ChevronRight className="size-4" />
+            </span>
+            <Link
+              href={`/examples/${breadcrumb.type}/${breadcrumb.category}`}
+              className="breadcrumb-link"
             >
-              Preview
-            </button>
-            <button
-              onClick={() => setView("code")}
-              className={`px-2.5 py-0.5 text-xs font-medium rounded transition-colors ${
-                view === "code"
-                  ? "bg-background text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Code
-            </button>
-          </div>
-          <div className="separator separator-vertical self-center h-4 hidden sm:block"></div>
-          <span className="text-xs text-muted-foreground hidden sm:block">{description}</span>
-        </div>
-        <div className="flex items-center gap-1 -mr-2">
-          {view === "preview" && (
-            <button
-              onClick={() => setIsMobile(!isMobile)}
-              className="btn btn-ghost btn-icon-sm hidden xs:flex"
-              aria-label={isMobile ? "Desktop view" : "Mobile view"}
-            >
-              {isMobile ? (
-                <Monitor className="size-4" />
-              ) : (
-                <Smartphone className="size-4" />
-              )}
-            </button>
-          )}
-          <button
-            onClick={handleCopy}
-            className={`btn btn-ghost btn-icon-sm ${view === "preview" ? "xs:hidden" : ""}`}
-            aria-label={copied ? "Copied" : "Copy code"}
-          >
-            {copied ? (
-              <Check className="size-4 text-green-600" />
-            ) : (
-              <Copy className="size-4" />
+              {breadcrumb.categoryLabel}
+            </Link>
+            <span className="breadcrumb-separator" aria-hidden="true">
+              <ChevronRight className="size-4" />
+            </span>
+            <span className="breadcrumb-page">{breadcrumb.variant}</span>
+          </nav>
+
+          <div className="ml-auto -mr-2 flex items-center gap-2">
+            <div className="flex rounded bg-muted p-0.5 mr-2">
+              <button
+                onClick={() => setView("preview")}
+                className={`px-2.5 py-0.5 text-xs font-medium rounded transition-colors ${
+                  view === "preview"
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Preview
+              </button>
+              <button
+                onClick={() => setView("code")}
+                className={`px-2.5 py-0.5 text-xs font-medium rounded transition-colors ${
+                  view === "code"
+                    ? "bg-background text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Code
+              </button>
+            </div>
+            <div className="separator separator-vertical self-auto! h-4 hidden md:block" />
+            {view === "preview" && (
+              <button
+                onClick={() => setIsMobile(!isMobile)}
+                className="btn btn-ghost btn-icon-sm hidden md:flex"
+                aria-label={isMobile ? "Desktop view" : "Mobile view"}
+              >
+                {isMobile ? (
+                  <Monitor className="size-4" />
+                ) : (
+                  <Smartphone className="size-4" />
+                )}
+              </button>
             )}
-          </button>
+            {view === "code" && (
+              <button
+                onClick={handleCopy}
+                className="btn btn-ghost btn-icon-sm hidden md:flex"
+                aria-label={copied ? "Copied" : "Copy code"}
+              >
+                {copied ? (
+                  <Check className="size-4 text-green-600" />
+                ) : (
+                  <Copy className="size-4" />
+                )}
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
-      <div
-        className={`relative flex justify-center ${isMobile ? "bg-muted" : ""} ${view === "preview" ? "" : "hidden"}`}
-      >
-        <div className="absolute inset-0 flex items-center justify-center" suppressHydrationWarning>
-          <Loader2 className="size-6 text-muted-foreground animate-spin" />
-        </div>
-        <iframe
-          suppressHydrationWarning
-          src={viewSrc}
-          className="bg-background transition-opacity opacity-0 h-120 lg:min-h-[930px] max-h-[930px]"
-          style={{
-            width: isMobile ? "400px" : "100%",
-            maxWidth: "100%",
-          }}
-          title={description}
-        />
-      </div>
-      <div className={`overflow-auto max-h-120 lg:max-h-[930px] bg-background ${view === "code" ? "" : "hidden"}`}>
+      <div className="p-4 bg-muted/50 min-h-[calc(100dvh-var(--navbar-height)-3rem-2px)]">
         <div
-          ref={codeRef}
-          className="[&_pre]:p-4 [&_pre]:bg-transparent! [&_.line]:bg-transparent!"
-          dangerouslySetInnerHTML={{ __html: highlightedCode }}
-        />
+          className={`relative flex justify-center ${view === "preview" ? "" : "hidden"}`}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/screenshots/${breadcrumb.type}-${breadcrumb.category}-${breadcrumb.variant}-light.webp`}
+            alt={description}
+            className="w-full rounded-lg border bg-background md:hidden dark:hidden"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/screenshots/${breadcrumb.type}-${breadcrumb.category}-${breadcrumb.variant}-dark.webp`}
+            alt={description}
+            className="w-full rounded-lg border bg-background md:hidden hidden dark:block dark:md:hidden"
+          />
+
+          <div className="hidden md:contents">
+            <div
+              className="absolute inset-0 flex items-center justify-center"
+              suppressHydrationWarning
+            >
+              <Loader2 className="size-6 text-muted-foreground animate-spin" />
+            </div>
+            <iframe
+              suppressHydrationWarning
+              src={viewSrc}
+              className="bg-background rounded-lg border transition-opacity opacity-0"
+              style={{
+                boxSizing: "content-box",
+                width: isMobile ? "400px" : "100%",
+                maxWidth: isMobile ? "100%" : "1536px",
+                maxHeight: isMobile ? "667px" : undefined,
+                minHeight: isMobile ? "667px" : undefined,
+              }}
+              title={description}
+            />
+          </div>
+        </div>
+        <div
+          className={`h-[calc(100dvh-var(--navbar-height)-3rem-2rem-2px)] max-w-384 mx-auto overflow-auto scrollbar-thin bg-background rounded-lg border ${view === "code" ? "" : "hidden"}`}
+        >
+          <div
+            ref={codeRef}
+            className="[&_pre]:p-4 [&_pre]:bg-transparent! [&_.line]:bg-transparent!"
+            dangerouslySetInnerHTML={{ __html: highlightedCode }}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

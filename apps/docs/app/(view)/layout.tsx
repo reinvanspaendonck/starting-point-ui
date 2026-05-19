@@ -7,6 +7,10 @@ export default function ViewLayout({
 }) {
   return (
     <>
+      <style>{`
+        html { scrollbar-width: none; }
+        html::-webkit-scrollbar { display: none; }
+      `}</style>
       <ViewIframeScript />
       {children}
     </>
