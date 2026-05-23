@@ -2,7 +2,7 @@
 
 An open-source component library for Tailwind CSS. Inspired by [shadcn/ui](https://ui.shadcn.com), Starting Point UI gives you the same beautiful design system without locking you into a framework. React, Vue, Angular, Django, Laravel, Rails, plain HTML - if it runs Tailwind, it works.
 
-Visit [startingpointui.com](https://www.startingpointui.com) for full documentation, live examples, and an interactive theme editor.
+Visit [startingpointui.com](https://startingpointui.com) for full documentation, live examples, and an interactive theme editor.
 
 ![Starting Point UI](https://raw.githubusercontent.com/gufodotdev/starting-point-ui/main/.github/startingpointui.png)
 

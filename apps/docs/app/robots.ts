@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/view/",
     },
-    sitemap: "https://www.startingpointui.com/sitemap.xml",
+    sitemap: "https://startingpointui.com/sitemap.xml",
   };
 }
