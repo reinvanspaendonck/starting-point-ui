@@ -4,10 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "prebuild": "tsx scripts/collect-examples.ts && tsx scripts/screenshot.ts && tsx scripts/generate-search-index.ts",
-    "collect-examples": "tsx scripts/collect-examples.ts",
-    "reorder-examples": "tsx scripts/reorder-examples.ts",
-    "screenshot": "tsx scripts/screenshot.ts",
+    "prebuild": "tsx scripts/generate-search-index.ts",
     "build": "next build",
     "generate-search": "tsx scripts/generate-search-index.ts",
     "start": "next start",
@@ -37,8 +34,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "prettier-plugin-svg-oneline": "*",
-    "puppeteer": "^25.0.2",
-    "sharp": "^0.34.5",
     "tailwindcss": "^4.2.2",
     "tsx": "^4.21.0",
     "typescript": "^5"

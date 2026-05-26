@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { getVariant, generateVariantStaticParams } from "@/lib/examples";
+import { codeToHtml } from "shiki";
+import { categoryLabel, getVariant, proUrl } from "@/lib/examples";
 import { Example } from "@/components/example";
 
-export const dynamicParams = false;
-
 type Params = Promise<{ type: string; category: string; variant: string }>;
-
-export const generateStaticParams = generateVariantStaticParams;
 
 export async function generateMetadata({
   params,
@@ -14,40 +11,35 @@ export async function generateMetadata({
   params: Params;
 }): Promise<Metadata> {
   const { type, category, variant } = await params;
-  const { category: cat, variant: v } = await getVariant(
-    type,
-    category,
-    Number(variant),
-  );
-  const image = `/screenshots/${type}-${category}-${v.variant}-light.webp`;
+  const v = await getVariant(type, category, Number(variant));
   return {
-    title: `${cat.title.replace(" Examples", "")} Example ${v.variant}`,
+    title: `${categoryLabel(category)} ${variant} - ${v.title}`,
     description: v.description,
     alternates: { canonical: `/examples/${type}/${category}/${variant}` },
-    openGraph: { images: [image] },
-    twitter: { card: "summary_large_image", images: [image] },
   };
 }
 
 export default async function VariantPage({ params }: { params: Params }) {
   const { type, category, variant } = await params;
-  const { category: cat, variant: v } = await getVariant(
-    type,
-    category,
-    Number(variant),
-  );
+  const variantNum = Number(variant);
+  const v = await getVariant(type, category, variantNum);
+  const label = categoryLabel(category);
+  const html = await codeToHtml(v.source, {
+    lang: "html",
+    themes: { dark: "github-dark", light: "github-light" },
+  });
 
   return (
     <Example
       breadcrumb={{
         type,
         category,
-        variant: v.variant,
-        categoryLabel: cat.title.replace(" Examples", ""),
+        variant: variantNum,
+        categoryLabel: label,
       }}
-      description={`${v.variant}: ${v.description}`}
-      viewSrc={`/view/${type}/${category}/${v.variant}`}
-      highlightedCode={v.html}
+      description={`${label} ${variantNum}`}
+      viewSrc={`${proUrl()}/examples/${type}/${category}/${variantNum}`}
+      html={html}
     />
   );
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useTheme } from "next-themes";
+import { screenshotUrl } from "@/lib/examples";
 import {
   Copy,
   Check,
@@ -20,19 +22,90 @@ type Props = {
   };
   description: string;
   viewSrc: string;
-  highlightedCode: string;
+  html: string;
 };
 
-export function Example({
-  breadcrumb,
-  description,
-  viewSrc,
-  highlightedCode,
-}: Props) {
+export function Example({ breadcrumb, description, viewSrc, html }: Props) {
   const [view, setView] = useState<"preview" | "code">("preview");
   const [isMobile, setIsMobile] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [iframeState, setIframeState] = useState<"idle" | "loaded" | "ready">(
+    "idle",
+  );
   const codeRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const { resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    if (iframeState !== "loaded") return;
+    let viewOrigin: string;
+    try {
+      viewOrigin = new URL(viewSrc, window.location.href).origin;
+    } catch {
+      return;
+    }
+    let ready = false;
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== viewOrigin) return;
+      const data = e.data;
+      if (data?.type === "sp:ready") {
+        ready = true;
+        setIframeState("ready");
+      }
+    };
+    window.addEventListener("message", onMessage);
+    const hello = setInterval(() => {
+      if (ready) {
+        clearInterval(hello);
+        return;
+      }
+      iframeRef.current?.contentWindow?.postMessage(
+        { type: "sp:hello" },
+        viewOrigin,
+      );
+    }, 100);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      clearInterval(hello);
+    };
+  }, [viewSrc, iframeState]);
+
+  useEffect(() => {
+    if (iframeState !== "ready") return;
+    iframeRef.current?.contentWindow?.postMessage(
+      { type: "sp:theme", dark: resolvedTheme === "dark" },
+      "*",
+    );
+  }, [iframeState, resolvedTheme]);
+
+  useEffect(() => {
+    if (iframeState !== "ready") return;
+    let lastKey = "";
+    const send = () => {
+      const css = document.getElementById("sp-theme")?.textContent ?? "";
+      const bodyFont =
+        (document.getElementById("sp-font-body") as HTMLLinkElement | null)
+          ?.href ?? "";
+      const headingFont =
+        (document.getElementById("sp-font-heading") as HTMLLinkElement | null)
+          ?.href ?? "";
+      const key = `${css} ${bodyFont} ${headingFont}`;
+      if (key === lastKey) return;
+      lastKey = key;
+      iframeRef.current?.contentWindow?.postMessage(
+        { type: "sp:editor", css, bodyFont, headingFont },
+        "*",
+      );
+    };
+    send();
+    const obs = new MutationObserver(send);
+    obs.observe(document.head, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+    return () => obs.disconnect();
+  }, [iframeState]);
 
   const handleCopy = async () => {
     const text = codeRef.current?.textContent ?? "";
@@ -42,7 +115,7 @@ export function Example({
   };
 
   return (
-    <>
+    <div data-no-scrollbar-gutter>
       <div className="sticky top-(--navbar-height) z-30 bg-background border-t border-b">
         <div className="px-4 sm:px-6 h-12 flex items-center gap-4">
           <nav className="breadcrumb text-sm">
@@ -118,55 +191,61 @@ export function Example({
         </div>
       </div>
 
-      <div className="p-4 bg-muted/50 min-h-[calc(100dvh-var(--navbar-height)-3rem-2px)]">
+      <div className="px-4 py-6 bg-muted/50 min-h-[calc(100dvh-var(--navbar-height)-3rem-2px)]">
         <div
           className={`relative flex justify-center ${view === "preview" ? "" : "hidden"}`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={`/screenshots/${breadcrumb.type}-${breadcrumb.category}-${breadcrumb.variant}-light.webp`}
+            src={screenshotUrl(breadcrumb, "light")}
             alt={description}
             className="w-full rounded-lg border bg-background md:hidden dark:hidden"
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={`/screenshots/${breadcrumb.type}-${breadcrumb.category}-${breadcrumb.variant}-dark.webp`}
+            src={screenshotUrl(breadcrumb, "dark")}
             alt={description}
             className="w-full rounded-lg border bg-background md:hidden hidden dark:block dark:md:hidden"
           />
 
           <div className="hidden md:contents">
-            <div
-              className="absolute inset-0 flex items-center justify-center"
-              suppressHydrationWarning
-            >
-              <Loader2 className="size-6 text-muted-foreground animate-spin" />
-            </div>
+            {iframeState !== "ready" && (
+              <div
+                className="absolute inset-0 flex items-center justify-center"
+                suppressHydrationWarning
+              >
+                <Loader2 className="size-6 text-muted-foreground animate-spin" />
+              </div>
+            )}
             <iframe
+              ref={iframeRef}
               suppressHydrationWarning
               src={viewSrc}
-              className="bg-background rounded-lg border transition-opacity opacity-0"
+              onLoad={() => setIframeState("loaded")}
+              className={`bg-background rounded-lg border transition-opacity ${iframeState === "ready" ? "opacity-100" : "opacity-0"}`}
               style={{
-                boxSizing: "content-box",
+                boxSizing: "border-box",
+                display: "block",
                 width: isMobile ? "400px" : "100%",
                 maxWidth: isMobile ? "100%" : "1536px",
-                maxHeight: isMobile ? "667px" : undefined,
-                minHeight: isMobile ? "667px" : undefined,
+                height: isMobile
+                  ? "667px"
+                  : "calc(100dvh - var(--navbar-height) - 3rem - 3rem - 2px)",
               }}
               title={description}
             />
           </div>
         </div>
         <div
-          className={`h-[calc(100dvh-var(--navbar-height)-3rem-2rem-2px)] max-w-384 mx-auto overflow-auto scrollbar-thin bg-background rounded-lg border ${view === "code" ? "" : "hidden"}`}
+          className={`h-[calc(100dvh-var(--navbar-height)-3rem-3rem-2px)] max-w-384 mx-auto overflow-auto scrollbar-thin bg-background rounded-lg border ${view === "code" ? "" : "hidden"}`}
         >
           <div
             ref={codeRef}
             className="[&_pre]:p-4 [&_pre]:bg-transparent! [&_.line]:bg-transparent!"
-            dangerouslySetInnerHTML={{ __html: highlightedCode }}
+            dangerouslySetInnerHTML={{ __html: html }}
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

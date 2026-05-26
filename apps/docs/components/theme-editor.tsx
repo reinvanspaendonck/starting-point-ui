@@ -45,14 +45,16 @@ function dot(color: string) {
   );
 }
 
-function loadFont(font: (typeof fonts)[number]) {
-  const id = `sp-font-${font.name.toLowerCase()}`;
-  if (document.getElementById(id)) return;
-  const link = document.createElement("link");
-  link.id = id;
-  link.rel = "stylesheet";
-  link.href = font.cdn;
-  document.head.appendChild(link);
+function loadFont(role: "body" | "heading", font: (typeof fonts)[number]) {
+  const id = `sp-font-${role}`;
+  let link = document.getElementById(id) as HTMLLinkElement | null;
+  if (!link) {
+    link = document.createElement("link");
+    link.id = id;
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }
+  if (link.href !== font.cdn) link.href = font.cdn;
 }
 
 function applyTheme(css: string) {
@@ -134,8 +136,8 @@ export function ThemeEditor({ className }: { className?: string }) {
 
     const bodyFont = fonts.find((f) => f.name === config.bodyFont);
     const headingFont = fonts.find((f) => f.name === config.headingFont);
-    if (bodyFont) loadFont(bodyFont);
-    if (headingFont) loadFont(headingFont);
+    if (bodyFont) loadFont("body", bodyFont);
+    if (headingFont) loadFont("heading", headingFont);
 
     applyTheme(buildThemeCSS(config));
   }, [config, ready]);
